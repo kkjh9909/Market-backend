@@ -20,4 +20,12 @@ public class ProductPost {
     private int price;
 
     private boolean isDeleted;
+
+    private int chatroomCount;
+
+    private int hits;
+
+    private int favorites;
+
+    private String category;
 }
