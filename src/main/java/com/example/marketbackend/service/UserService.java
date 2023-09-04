@@ -31,4 +31,17 @@ public class UserService {
 
         return new UserSignUpResponse(ResponseMessage.SIGN_UP);
     }
+
+
+    public UserSignInResponse signIn(UserSignInRequest userSignInRequest) {
+        Optional<User> user = userRepository.findByUserId(userSignInRequest.getUserId());
+
+        if(user.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+
+        if(user.get().getPassword().equals(userSignInRequest.getPassword()))
+            return new UserSignInResponse(ResponseMessage.SIGN_IN);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Password Unmatched");
+    }
 }

@@ -26,4 +26,11 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(@RequestBody UserSignInRequest userSignInRequest) {
+        UserSignInResponse response = userService.signIn(userSignInRequest);
+
+        return ResponseEntity.ok(response);
+    }
 }

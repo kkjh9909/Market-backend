@@ -1,6 +1,8 @@
 package com.example.marketbackend.service;
 
+import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
+import com.example.marketbackend.dto.user.response.UserSignInResponse;
 import com.example.marketbackend.entity.User;
 import com.example.marketbackend.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -19,17 +21,38 @@ class UserServiceTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
+    private User createTestUser() {
+        UserSignUpRequest userSignUpRequest = new UserSignUpRequest("test1", "password", "username", "nickname", "image", "address");
+
+        return createUser(userSignUpRequest);
+    }
+
     @Test
     @DisplayName("회원가입 테스트")
     public void signUp() {
-        UserSignUpRequest userSignUpRequest = new UserSignUpRequest("test1", "password", "username", "nickname", "image", "address");
-
-        User user = createUser(userSignUpRequest);
+        User user = createTestUser();
 
         userRepository.save(user);
 
         Optional<User> testUser = userRepository.findById(1L);
 
         assertEquals(user.getUserId(), testUser.get().getUserId());
+    }
+
+    @Test
+    @DisplayName("로그인 테스트")
+    public void signIn() {
+        UserSignInRequest userSignInRequest = new UserSignInRequest("test1", "password");
+
+        User user = createTestUser();
+
+        userRepository.save(user);
+
+        UserSignInResponse response = userService.signIn(userSignInRequest);
+
+        assertEquals("로그인 성공", response.getMessage());
     }
 }
