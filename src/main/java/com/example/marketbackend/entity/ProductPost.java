@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -41,13 +39,18 @@ public class ProductPost {
 
     private String category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     public ProductPost() { }
 
-    public static ProductPost writeProductPost(ProductPostWriteRequest request) {
+    public static ProductPost writeProductPost(ProductPostWriteRequest request, User user) {
         return ProductPost.builder().title(request.getTitle())
                 .content(request.getContent())
                 .price(request.getPrice())
                 .isDeal(request.isDeal())
+                .category(request.getCategory())
+                .user(user)
                 .build();
     }
 }

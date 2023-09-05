@@ -10,5 +10,6 @@ public class ProductPostWriteRequest {
     private String title;
     private int price;
     private String content;
+    private String category;
     private boolean isDeal;
 }
