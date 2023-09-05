@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UserSignUpRequest {
 
-    private String id;
+    private String userId;
     private String password;
     private String username;
     private String nickname;

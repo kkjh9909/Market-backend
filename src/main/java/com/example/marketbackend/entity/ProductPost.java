@@ -1,6 +1,10 @@
 package com.example.marketbackend.entity;
 
+import com.example.marketbackend.dto.post.request.ProductPostWriteRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,8 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 public class ProductPost {
 
     @Id @GeneratedValue
@@ -15,17 +21,33 @@ public class ProductPost {
 
     private String title;
 
-    private String body;
+    private String content;
 
     private int price;
 
-    private boolean isDeleted;
+    private boolean isDeal;
 
-    private int chatroomCount;
+    @Builder.Default
+    private boolean isDeleted = false;
 
-    private int hits;
+    @Builder.Default
+    private int chatroomCount = 0;
 
-    private int favorites;
+    @Builder.Default
+    private int hits = 0;
+
+    @Builder.Default
+    private int favorites = 0;
 
     private String category;
+
+    public ProductPost() { }
+
+    public static ProductPost writeProductPost(ProductPostWriteRequest request) {
+        return ProductPost.builder().title(request.getTitle())
+                .content(request.getContent())
+                .price(request.getPrice())
+                .isDeal(request.isDeal())
+                .build();
+    }
 }

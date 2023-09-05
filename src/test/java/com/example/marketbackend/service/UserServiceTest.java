@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -24,10 +25,15 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     private User createTestUser() {
         UserSignUpRequest userSignUpRequest = new UserSignUpRequest("test1", "password", "username", "nickname", "image", "address");
 
-        return createUser(userSignUpRequest);
+        String password = passwordEncoder.encode("password");
+
+        return createUser(userSignUpRequest, password);
     }
 
     @Test

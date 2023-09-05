@@ -35,9 +35,9 @@ public class User {
     private LocalDateTime createdAt;
 
     public User() {}
-    public static User createUser(UserSignUpRequest userSignUpRequest) {
-        return User.builder().userId(userSignUpRequest.getId())
-                .password(userSignUpRequest.getPassword())
+    public static User createUser(UserSignUpRequest userSignUpRequest, String password) {
+        return User.builder().userId(userSignUpRequest.getUserId())
+                .password(password)
                 .userName(userSignUpRequest.getUsername())
                 .nickname(userSignUpRequest.getNickname())
                 .address(userSignUpRequest.getAddress())
