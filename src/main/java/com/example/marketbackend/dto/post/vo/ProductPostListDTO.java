@@ -11,6 +11,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProductPostListDTO {
 
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty("title")
     private String title;
 
@@ -31,6 +34,7 @@ public class ProductPostListDTO {
 
     public static ProductPostListDTO from(ProductPost productPost) {
         return ProductPostListDTO.builder()
+                .id(productPost.getId())
                 .title(productPost.getTitle())
                 .category(productPost.getCategory())
                 .price(productPost.getPrice())
