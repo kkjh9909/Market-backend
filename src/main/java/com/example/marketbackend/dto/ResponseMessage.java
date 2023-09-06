@@ -6,5 +6,6 @@ public class ResponseMessage {
     public static final String SIGN_IN = "로그인 성공";
     public static final String POST_WRITE = "판매글 작성 성공";
     public static final String POST_GET = "판매글 조회 성공";
+    public static final String POSTS_GET = "판매글 목록 조회 성공";
 
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -32,6 +34,9 @@ public class ProductPostDTO {
     @JsonProperty("my_post")
     private boolean isMine;
 
+    @JsonProperty("created_time")
+    private LocalDateTime createdTime;
+
     public static ProductPostDTO from(ProductPost productPost, long userId) {
         return ProductPostDTO.builder()
                 .title(productPost.getTitle())
@@ -41,6 +46,7 @@ public class ProductPostDTO {
                 .favorites(productPost.getFavorites())
                 .chatroom(productPost.getChatroomCount())
                 .isMine(productPost.getUser().getId() == userId)
+                .createdTime(productPost.getCreatedAt())
                 .build();
     }
 }

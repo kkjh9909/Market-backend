@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -39,6 +40,10 @@ public class ProductPost {
 
     private String category;
 
+    private String address;
+
+    private LocalDateTime createdAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -50,6 +55,8 @@ public class ProductPost {
                 .price(request.getPrice())
                 .isDeal(request.isDeal())
                 .category(request.getCategory())
+                .address(user.getAddress())
+                .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();
     }
