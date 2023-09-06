@@ -6,9 +6,6 @@ import lombok.Data;
 @Data
 public class UserSignInResponse {
 
-    @JsonProperty("result")
-    private String result = "success";
-
     @JsonProperty("access_token")
     private String accessToken;
 

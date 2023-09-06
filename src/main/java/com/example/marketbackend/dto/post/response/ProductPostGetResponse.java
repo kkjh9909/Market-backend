@@ -8,9 +8,6 @@ import lombok.Data;
 @Data
 public class ProductPostGetResponse {
 
-    @JsonProperty("result")
-    private String result = "success";
-
     @JsonProperty("message")
     private String message;
 
