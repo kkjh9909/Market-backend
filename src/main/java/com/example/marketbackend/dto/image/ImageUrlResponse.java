@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ImageUrlResponse {
 
-    @JsonProperty("imaeg_url")
+    @JsonProperty("image_url")
     private String imageUrl;
 
     public ImageUrlResponse(String imageUrl) {
