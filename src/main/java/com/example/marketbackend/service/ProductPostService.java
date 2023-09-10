@@ -8,8 +8,10 @@ import com.example.marketbackend.dto.post.response.ProductPostsGetResponse;
 import com.example.marketbackend.dto.post.vo.ProductPostDTO;
 import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
 import com.example.marketbackend.dto.post.vo.UserInfoDTO;
+import com.example.marketbackend.entity.ProductPhoto;
 import com.example.marketbackend.entity.ProductPost;
 import com.example.marketbackend.entity.User;
+import com.example.marketbackend.repository.ProductPhotoRepository;
 import com.example.marketbackend.repository.ProductPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,6 +34,7 @@ public class ProductPostService {
 
     private final ProductPostRepository productPostRepository;
     private final UserRepository userRepository;
+    private final ProductPhotoRepository productPhotoRepository;
 
     public ProductPostWriteResponse write(ProductPostWriteRequest productPostWriteRequest) {
         long userId = getUserId();
@@ -38,7 +43,14 @@ public class ProductPostService {
 
         ProductPost productPost = writeProductPost(productPostWriteRequest, user.orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
 
+        List<ProductPhoto> photos = new ArrayList<>();
+        for (String url : productPostWriteRequest.getImages()) {
+            ProductPhoto photo = ProductPhoto.from(productPost, url);
+            photos.add(photo);
+        }
+
         productPostRepository.save(productPost);
+        productPhotoRepository.saveAll(photos);
 
         return new ProductPostWriteResponse(ResponseMessage.POST_WRITE);
     }
@@ -48,7 +60,7 @@ public class ProductPostService {
 
         long userId = getUserId();
 
-        ProductPostDTO productPostDTO = ProductPostDTO.from(post.orElseThrow(() -> new RuntimeException("해당하는 글이 존재하지 않습니다.")), getUserId());
+        ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), getUserId());
 
         Optional<User> user = userRepository.findById(userId);
 

@@ -12,5 +12,5 @@ public class ProductPostWriteRequest {
     private String content;
     private String category;
     private boolean isDeal;
-    private String address;
+    private String[] images;
 }
