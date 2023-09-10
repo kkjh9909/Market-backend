@@ -17,6 +17,7 @@ import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -60,12 +61,10 @@ public class ProductPostService {
 
         long userId = getUserId();
 
-        ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), getUserId());
+        ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), userId);
+        Optional<User> user = userRepository.findById(post.get().getUser().getId());
 
-        Optional<User> user = userRepository.findById(userId);
-
-        UserInfoDTO userInfoDTO = UserInfoDTO.from(user.orElseThrow(() -> new RuntimeException("해당하는 유저가 존재하지 않습니다.")));
-
+        UserInfoDTO userInfoDTO = UserInfoDTO.from(user.get());
         return new ProductPostGetResponse(ResponseMessage.POST_GET, productPostDTO, userInfoDTO);
     }
 
@@ -83,10 +82,17 @@ public class ProductPostService {
     }
 
     private long getUserId() {
-        UserDetails principal = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return Long.parseLong(principal.getUsername());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                return Long.parseLong(userDetails.getUsername());
+            }
+        }
+
+        return 0L;
     }
-
-
 
 }
