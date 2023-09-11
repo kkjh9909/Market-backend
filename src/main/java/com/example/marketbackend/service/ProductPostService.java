@@ -4,6 +4,7 @@ import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.post.request.ProductPostWriteRequest;
 import com.example.marketbackend.dto.post.response.ProductPostGetResponse;
 import com.example.marketbackend.dto.post.response.ProductPostWriteResponse;
+import com.example.marketbackend.dto.post.response.ProductPostsByCategoryResponse;
 import com.example.marketbackend.dto.post.response.ProductPostsGetResponse;
 import com.example.marketbackend.dto.post.vo.ProductPostDTO;
 import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
@@ -81,6 +82,14 @@ public class ProductPostService {
         return new ProductPostsGetResponse(ResponseMessage.POSTS_GET, count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
     }
 
+    public ProductPostsByCategoryResponse getPostsByCategory(String category) {
+        List<ProductPost> posts = productPostRepository.findAllByCategory(category);
+
+        long count = posts.size();
+
+        return new ProductPostsByCategoryResponse(ResponseMessage.POSTS_GET, count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
+    }
+
     private long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -94,5 +103,6 @@ public class ProductPostService {
 
         return 0L;
     }
+
 
 }

@@ -3,6 +3,7 @@ package com.example.marketbackend.controller;
 import com.example.marketbackend.dto.post.request.ProductPostWriteRequest;
 import com.example.marketbackend.dto.post.response.ProductPostGetResponse;
 import com.example.marketbackend.dto.post.response.ProductPostWriteResponse;
+import com.example.marketbackend.dto.post.response.ProductPostsByCategoryResponse;
 import com.example.marketbackend.dto.post.response.ProductPostsGetResponse;
 import com.example.marketbackend.service.ProductPostService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,13 @@ public class ProductPostController {
     @GetMapping("/list")
     public ResponseEntity<?> getPosts(@RequestParam Optional<String> address, Pageable pageable) {
         ProductPostsGetResponse posts = productPostService.getPosts(address.orElse(""), pageable);
+
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/list/{category}")
+    public ResponseEntity<?> getPostsByCategory(@PathVariable String category) {
+        ProductPostsByCategoryResponse posts = productPostService.getPostsByCategory(category);
 
         return ResponseEntity.ok(posts);
     }
