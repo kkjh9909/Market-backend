@@ -32,6 +32,9 @@ public class ProductPostListDTO {
     @JsonProperty("chatroom_count")
     private int chatrooms;
 
+    @JsonProperty("thumbnail")
+    private String thumbnail;
+
     public static ProductPostListDTO from(ProductPost productPost) {
         return ProductPostListDTO.builder()
                 .id(productPost.getId())
@@ -41,6 +44,7 @@ public class ProductPostListDTO {
                 .address(productPost.getAddress())
                 .favorites(productPost.getFavorites())
                 .chatrooms(productPost.getChatroomCount())
+                .thumbnail(productPost.getThumbnail())
                 .build();
     }
 }

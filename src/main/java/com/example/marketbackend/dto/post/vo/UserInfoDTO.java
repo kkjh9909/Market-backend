@@ -12,11 +12,13 @@ public class UserInfoDTO {
 
     private String nickname;
     private String address;
+    private String profile;
 
     public static UserInfoDTO from(User user) {
         return UserInfoDTO.builder()
                 .nickname(user.getNickname())
                 .address(user.getAddress())
+                .profile(user.getProfileImage())
                 .build();
     }
 }

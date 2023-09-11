@@ -44,12 +44,16 @@ public class ProductPostDTO {
     @JsonProperty("created_time")
     private LocalDateTime createdTime;
 
+    @JsonProperty("price")
+    private int price;
+
     public static ProductPostDTO from(ProductPost post, long userId) {
         return ProductPostDTO.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
                 .category(post.getCategory())
                 .hits(post.getHits())
+                .price(post.getPrice())
                 .favorites(post.getFavorites())
                 .chatroom(post.getChatroomCount())
                 .images(post.getProductPhotos().stream().map(ProductPhoto::getImageUrl).collect(Collectors.toList()))

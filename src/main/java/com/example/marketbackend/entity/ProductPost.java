@@ -46,13 +46,15 @@ public class ProductPost {
 
     private String address;
 
+    private String thumbnail;
+
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(mappedBy = "productPost", fetch = FetchType.LAZY)
-    private List<ProductPhoto> productPhotos = new ArrayList<>();
+    @OneToMany(mappedBy = "productPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProductPhoto> productPhotos;
 
     public ProductPost() { }
 
@@ -64,9 +66,11 @@ public class ProductPost {
                 .category(request.getCategory())
                 .address(user.getAddress())
                 .createdAt(LocalDateTime.now())
+                .thumbnail(request.getImages()[0])
                 .user(user)
                 .build();
 
+        post.productPhotos = new ArrayList<>();
         post.addPhotos(List.of(request.getImages()));
         return post;
     }
