@@ -82,4 +82,12 @@ public class ProductPost {
 
         this.productPhotos.addAll(photos);
     }
+
+    public void increaseFavorite() {
+        this.favorites++;
+    }
+
+    public void decreaseFavorite() {
+        this.favorites--;
+    }
 }
