@@ -11,8 +11,10 @@ import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
 import com.example.marketbackend.dto.post.vo.UserInfoDTO;
 import com.example.marketbackend.entity.ProductPhoto;
 import com.example.marketbackend.entity.ProductPost;
+import com.example.marketbackend.entity.ProductPostFavorite;
 import com.example.marketbackend.entity.User;
 import com.example.marketbackend.repository.ProductPhotoRepository;
+import com.example.marketbackend.repository.ProductPostFavoriteRepository;
 import com.example.marketbackend.repository.ProductPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +39,11 @@ public class ProductPostService {
     private final ProductPostRepository productPostRepository;
     private final UserRepository userRepository;
     private final ProductPhotoRepository productPhotoRepository;
+    private final ProductPostFavoriteRepository productPostFavoriteRepository;
+    private final AuthenticationService authenticationService;
 
     public ProductPostWriteResponse write(ProductPostWriteRequest productPostWriteRequest) {
-        long userId = getUserId();
+        long userId = authenticationService.getUserId();
 
         Optional<User> user = userRepository.findById(userId);
 
@@ -60,9 +64,11 @@ public class ProductPostService {
     public ProductPostGetResponse getPost(long postId) {
         Optional<ProductPost> post = productPostRepository.findByIdAndIsDeletedFalse(postId);
 
-        long userId = getUserId();
+        long userId = authenticationService.getUserId();
 
-        ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), userId);
+        Optional<ProductPostFavorite> like = productPostFavoriteRepository.findByPostIdAndUserId(post.get().getId(), userId);
+
+        ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), userId, like.orElse(null));
         Optional<User> user = userRepository.findById(post.get().getUser().getId());
 
         UserInfoDTO userInfoDTO = UserInfoDTO.from(user.get());
@@ -89,20 +95,4 @@ public class ProductPostService {
 
         return new ProductPostsByCategoryResponse(ResponseMessage.POSTS_GET, count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
     }
-
-    private long getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                return Long.parseLong(userDetails.getUsername());
-            }
-        }
-
-        return 0L;
-    }
-
-
 }
