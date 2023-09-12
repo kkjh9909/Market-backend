@@ -40,21 +40,12 @@ public class FavoriteService {
             productPostFavoriteRepository.save(favorite);
         }
 
-        return new FavoritePostResponse(ResponseMessage.ADD_FAVORITE);
+        int favoriteCount = post.get().getFavorites();
+
+        return new FavoritePostResponse(ResponseMessage.ADD_FAVORITE, favoriteCount);
     }
 
     public FavoriteDeleteResponse dislikePost(long postId) {
-        Optional<ProductPostFavorite> isFavorite = getFavorite(postId);
-
-        if(isFavorite.isPresent()) {
-            isFavorite.get().deleteLike();
-            productPostFavoriteRepository.delete(isFavorite.get());
-        }
-
-        return new FavoriteDeleteResponse(ResponseMessage.DELETE_FAVORITE);
-    }
-
-    private Optional<ProductPostFavorite> getFavorite(long postId) {
         long userId = authenticationService.getUserId();
 
         Optional<ProductPost> post = productPostRepository.findById(postId);
@@ -62,6 +53,13 @@ public class FavoriteService {
 
         Optional<ProductPostFavorite> isFavorite = productPostFavoriteRepository.findByPostIdAndUserId(post.get().getId(), user.get().getId());
 
-        return isFavorite;
+        if(isFavorite.isPresent()) {
+            isFavorite.get().deleteLike();
+            productPostFavoriteRepository.delete(isFavorite.get());
+        }
+
+        int favoriteCount = post.get().getFavorites();
+
+        return new FavoriteDeleteResponse(ResponseMessage.DELETE_FAVORITE, favoriteCount);
     }
 }
