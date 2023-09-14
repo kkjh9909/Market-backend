@@ -63,5 +63,19 @@ public class ChatService {
         return new ChatListResponse(ResponseMessage.CHATS_LIST, count, new ChatList(chatResponseList));
     }
 
+    public void sendMessage(long chatroom, ChatRequest message, int senderId) {
+        System.out.println("sender " + senderId);
 
+        Optional<User> user = userRepository.findById((long)senderId);
+        Optional<ChatRoom> room = chatRoomRepository.findById(chatroom);
+
+        Chat chat = new Chat(message.getMessage(), user.get(), room.get());
+
+        chatRepository.save(chat);
+
+        long id = user.get().getId();
+        String nickname = user.get().getNickname();
+
+        simpMessagingTemplate.convertAndSend("/topic/" + chatroom, new ChatResponse(id, nickname, chat.getMessage(), chat.getCreatedAt()));
+    }
 }
