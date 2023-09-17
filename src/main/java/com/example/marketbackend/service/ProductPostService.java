@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +62,16 @@ public class ProductPostService {
         return new ProductPostWriteResponse(ResponseMessage.POST_WRITE);
     }
 
+    @Transactional
     public ProductPostGetResponse getPost(long postId) {
+        productPostRepository.increaseHits(postId);
+
         Optional<ProductPost> post = productPostRepository.findByIdAndIsDeletedFalse(postId);
 
         long userId = authenticationService.getUserId();
 
         Optional<ProductPostFavorite> like = productPostFavoriteRepository.findByPostIdAndUserId(post.get().getId(), userId);
+
 
         ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), userId, like.orElse(null));
         Optional<User> user = userRepository.findById(post.get().getUser().getId());
