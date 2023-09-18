@@ -2,7 +2,6 @@ package com.example.marketbackend.service;
 
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.chat.request.ChatRequest;
-import com.example.marketbackend.dto.chat.request.ChatRoomRequest;
 import com.example.marketbackend.dto.chat.response.ChatList;
 import com.example.marketbackend.dto.chat.response.ChatListResponse;
 import com.example.marketbackend.dto.chat.response.ChatResponse;
@@ -84,8 +83,9 @@ public class ChatService {
         chatRepository.save(chat);
 
         long id = user.get().getId();
+        String profileImage = user.get().getProfileImage();
         String nickname = user.get().getNickname();
 
-        simpMessagingTemplate.convertAndSend("/topic/" + chatroom, new ChatResponse(id, nickname, chat.getMessage(), chat.getCreatedAt()));
+        simpMessagingTemplate.convertAndSend("/topic/" + chatroom, new ChatResponse(id, profileImage, nickname, chat.getMessage(), chat.getCreatedAt()));
     }
 }

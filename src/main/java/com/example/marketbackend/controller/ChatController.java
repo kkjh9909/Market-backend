@@ -1,9 +1,7 @@
 package com.example.marketbackend.controller;
 
 import com.example.marketbackend.dto.chat.request.ChatRequest;
-import com.example.marketbackend.dto.chat.request.ChatRoomRequest;
 import com.example.marketbackend.dto.chat.response.ChatListResponse;
-import com.example.marketbackend.dto.chat.response.ChatResponse;
 import com.example.marketbackend.dto.chat.response.ChatRoomNumResponse;
 import com.example.marketbackend.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.util.Map;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController

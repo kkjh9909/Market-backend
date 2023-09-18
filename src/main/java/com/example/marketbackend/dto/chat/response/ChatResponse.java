@@ -17,6 +17,9 @@ public class ChatResponse {
     @JsonProperty("sender_id")
     private long senderId;
 
+    @JsonProperty("profile_image")
+    private String profileImage;
+
     @JsonProperty("nickname")
     private String nickname;
 
@@ -30,6 +33,7 @@ public class ChatResponse {
         return ChatResponse.builder()
                 .senderId(chat.getSender().getId())
                 .nickname(chat.getSender().getNickname())
+                .profileImage(chat.getSender().getProfileImage())
                 .message(chat.getMessage())
                 .createdAt(chat.getCreatedAt())
                 .build();
