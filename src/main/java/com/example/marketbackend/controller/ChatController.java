@@ -25,13 +25,6 @@ public class ChatController {
     private final ChatService chatService;
     private final Map<String, Integer> sessions = new ConcurrentHashMap<>();
 
-    @GetMapping("/api/chatroom")
-    public ResponseEntity<?> getChatRoom(@RequestParam long postId, @RequestParam long receiverId) {
-        ChatRoomNumResponse response = chatService.getChatRoomNum(postId, receiverId);
-
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/api/chats/{roomId}")
     public ResponseEntity<?> getChatList(@PathVariable long roomId, Pageable pageable) {
         ChatListResponse response = chatService.getChatList(roomId, pageable);
