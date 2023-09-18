@@ -1,5 +1,6 @@
 package com.example.marketbackend.controller;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
@@ -8,10 +9,7 @@ import com.example.marketbackend.dto.user.response.UserSignUpResponse;
 import com.example.marketbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +28,13 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody UserSignInRequest userSignInRequest) {
         UserSignInResponse response = userService.signIn(userSignInRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile() {
+        Response response = userService.getProfile();
 
         return ResponseEntity.ok(response);
     }

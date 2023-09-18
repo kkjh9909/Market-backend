@@ -1,8 +1,10 @@
 package com.example.marketbackend.service;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
+import com.example.marketbackend.dto.user.response.UserProfileResponse;
 import com.example.marketbackend.dto.user.response.UserSignInResponse;
 import com.example.marketbackend.dto.user.response.UserSignUpResponse;
 import com.example.marketbackend.entity.User;
@@ -27,6 +29,7 @@ public class UserService {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationService authenticationService;
 
     @Transactional
     public UserSignUpResponse signUp(UserSignUpRequest userSignUpRequest) {
@@ -55,5 +58,13 @@ public class UserService {
         }
         else
             throw new LoginException("비밀번호가 틀렸습니다.");
+    }
+
+    public Response getProfile() {
+        long userId = authenticationService.getUserId();
+
+        Optional<User> user = userRepository.findById(userId);
+
+        return new Response(ResponseMessage.PROFILE_GET, new UserProfileResponse(user.get().getProfileImage(), user.get().getNickname()));
     }
 }

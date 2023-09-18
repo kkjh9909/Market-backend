@@ -11,5 +11,6 @@ public class ResponseMessage {
     public static final String DELETE_FAVORITE = "판매글 좋아요 삭제 성공";
     public static final String CHAT_ROOM = "채팅방 생성 성공";
     public static final String CHATS_LIST = "채팅 목록 조회 성공";
+    public static final String PROFILE_GET = "유저 정보 조회 성공";
 
 }
