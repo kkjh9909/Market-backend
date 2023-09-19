@@ -1,4 +1,4 @@
-package com.example.marketbackend.dto.post.response;
+package com.example.marketbackend.dto.favorite.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FavoriteDeleteResponse {
+public class FavoriteAddResponse {
 
     @JsonProperty("message")
     private String message;
