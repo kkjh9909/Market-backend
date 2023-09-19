@@ -22,9 +22,11 @@ public interface ProductPostRepository extends JpaRepository<ProductPost, Long> 
 
     @Modifying
     @Query("update ProductPost p set p.hits = p.hits + 1 where p.id = :id")
-    public int increaseHits(@Param("id") long id);
+    int increaseHits(@Param("id") long id);
 
     @Modifying
     @Query("update ProductPost p set p.chatroomCount = p.chatroomCount + 1 where p.id = :id")
-    public int increaseChatrooms(@Param("id") long id);
+    int increaseChatrooms(@Param("id") long id);
+
+    Page<ProductPost> findByUserId(long userId, Pageable pageable);
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -35,6 +37,9 @@ public class ProductPostListDTO {
     @JsonProperty("thumbnail")
     private String thumbnail;
 
+    @JsonProperty("created_time")
+    private LocalDateTime createdAt;
+
     public static ProductPostListDTO from(ProductPost productPost) {
         return ProductPostListDTO.builder()
                 .id(productPost.getId())
@@ -45,6 +50,7 @@ public class ProductPostListDTO {
                 .favorites(productPost.getFavorites())
                 .chatrooms(productPost.getChatroomCount())
                 .thumbnail(productPost.getThumbnail())
+                .createdAt(productPost.getCreatedAt())
                 .build();
     }
 }

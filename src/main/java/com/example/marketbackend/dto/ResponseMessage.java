@@ -15,5 +15,6 @@ public class ResponseMessage {
     public static final String CHAT_ROOMS_GET = "채팅방 리스트 조회 성공";
     public static final String ID_GET = "유저 아이디 조회 성공";
     public static final String FAVORITE_POSTS_GET = "좋아요 누른 포스트 조회 성공";
+    public static final String MY_POST_GET = "내 작성글 조회 성공";
 
 }

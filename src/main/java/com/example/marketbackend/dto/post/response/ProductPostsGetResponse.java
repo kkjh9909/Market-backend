@@ -9,17 +9,13 @@ import java.util.List;
 
 public class ProductPostsGetResponse {
 
-    @JsonProperty("message")
-    private String message;
-
     @JsonProperty("count")
     private long count;
 
-    @JsonProperty("post_info")
+    @JsonProperty("posts")
     private List<ProductPostListDTO> productPostListDTO;
 
-    public ProductPostsGetResponse(String message, long count, List<ProductPostListDTO> productPostListDTO) {
-        this.message = message;
+    public ProductPostsGetResponse(long count, List<ProductPostListDTO> productPostListDTO) {
         this.count = count;
         this.productPostListDTO = productPostListDTO;
     }

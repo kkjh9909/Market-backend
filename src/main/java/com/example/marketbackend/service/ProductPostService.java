@@ -1,5 +1,6 @@
 package com.example.marketbackend.service;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.post.request.ProductPostWriteRequest;
 import com.example.marketbackend.dto.post.response.ProductPostGetResponse;
@@ -80,7 +81,7 @@ public class ProductPostService {
         return new ProductPostGetResponse(ResponseMessage.POST_GET, productPostDTO, userInfoDTO);
     }
 
-    public ProductPostsGetResponse getPosts(String address, Pageable pageable) {
+    public Response getPosts(String address, Pageable pageable) {
         Page<ProductPost> posts;
 
         if(address.equals(""))
@@ -90,7 +91,9 @@ public class ProductPostService {
 
         long count = posts.getTotalElements();
 
-        return new ProductPostsGetResponse(ResponseMessage.POSTS_GET, count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
+        ProductPostsGetResponse productPostsGetResponse = new ProductPostsGetResponse(count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
+
+        return new Response(ResponseMessage.POSTS_GET, productPostsGetResponse);
     }
 
     public ProductPostsByCategoryResponse getPostsByCategory(String category) {
@@ -99,5 +102,16 @@ public class ProductPostService {
         long count = posts.size();
 
         return new ProductPostsByCategoryResponse(ResponseMessage.POSTS_GET, count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
+    }
+
+    public Response getMyPosts(Pageable pageable) {
+        long userId = authenticationService.getUserId();
+
+        Page<ProductPost> posts = productPostRepository.findByUserId(userId, pageable);
+        long count = posts.getTotalElements();
+
+        ProductPostsGetResponse productPostsGetResponse = new ProductPostsGetResponse(count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
+
+        return new Response(ResponseMessage.MY_POST_GET, productPostsGetResponse);
     }
 }
