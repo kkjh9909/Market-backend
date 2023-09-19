@@ -1,8 +1,11 @@
 package com.example.marketbackend.service;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
-import com.example.marketbackend.dto.post.response.FavoriteDeleteResponse;
-import com.example.marketbackend.dto.post.response.FavoritePostResponse;
+import com.example.marketbackend.dto.favorite.response.FavoriteDeleteResponse;
+import com.example.marketbackend.dto.favorite.response.FavoriteAddResponse;
+import com.example.marketbackend.dto.favorite.response.FavoritePostResponse;
+import com.example.marketbackend.dto.favorite.response.FavoritePostsResponse;
 import com.example.marketbackend.entity.ProductPost;
 import com.example.marketbackend.entity.ProductPostFavorite;
 import com.example.marketbackend.entity.User;
@@ -10,12 +13,13 @@ import com.example.marketbackend.repository.ProductPostFavoriteRepository;
 import com.example.marketbackend.repository.ProductPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +30,7 @@ public class FavoriteService {
     private final ProductPostFavoriteRepository productPostFavoriteRepository;
     private final AuthenticationService authenticationService;
 
-    public FavoritePostResponse likePost(long postId) {
+    public FavoriteAddResponse likePost(long postId) {
         long userId = authenticationService.getUserId();
 
         Optional<ProductPost> post = productPostRepository.findById(postId);
@@ -42,7 +46,7 @@ public class FavoriteService {
 
         int favoriteCount = post.get().getFavorites();
 
-        return new FavoritePostResponse(ResponseMessage.ADD_FAVORITE, favoriteCount);
+        return new FavoriteAddResponse(ResponseMessage.ADD_FAVORITE, favoriteCount);
     }
 
     public FavoriteDeleteResponse dislikePost(long postId) {
@@ -61,5 +65,17 @@ public class FavoriteService {
         int favoriteCount = post.get().getFavorites();
 
         return new FavoriteDeleteResponse(ResponseMessage.DELETE_FAVORITE, favoriteCount);
+    }
+
+    public Response getFavoritePosts(Pageable pageable) {
+        long userId = authenticationService.getUserId();
+
+        Page<ProductPostFavorite> posts = productPostFavoriteRepository.findByUserId(userId, pageable);
+
+        long count = posts.getTotalElements();
+
+        List<FavoritePostResponse> list = posts.stream().map(FavoritePostResponse::createFavoritePostResponse).collect(Collectors.toList());
+
+        return new Response(ResponseMessage.FAVORITE_POSTS_GET, new FavoritePostsResponse(count, list));
     }
 }

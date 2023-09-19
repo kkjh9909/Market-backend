@@ -1,9 +1,11 @@
 package com.example.marketbackend.controller;
 
-import com.example.marketbackend.dto.post.response.FavoriteDeleteResponse;
-import com.example.marketbackend.dto.post.response.FavoritePostResponse;
+import com.example.marketbackend.dto.Response;
+import com.example.marketbackend.dto.favorite.response.FavoriteDeleteResponse;
+import com.example.marketbackend.dto.favorite.response.FavoriteAddResponse;
 import com.example.marketbackend.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ public class FavoriteController {
 
     @PostMapping("/{postId}")
     public ResponseEntity<?> addFavorite(@PathVariable long postId) {
-        FavoritePostResponse response = favoriteService.likePost(postId);
+        FavoriteAddResponse response = favoriteService.likePost(postId);
 
         return ResponseEntity.ok(response);
     }
@@ -24,6 +26,13 @@ public class FavoriteController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deleteFavorite(@PathVariable long postId) {
         FavoriteDeleteResponse response = favoriteService.dislikePost(postId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<?> getFavoritePosts(Pageable pageable) {
+        Response response = favoriteService.getFavoritePosts(pageable);
 
         return ResponseEntity.ok(response);
     }
