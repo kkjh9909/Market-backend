@@ -17,8 +17,6 @@ public class ChatRoom {
     @Id @GeneratedValue
     private long id;
 
-    private String lastMessage;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user1;
 

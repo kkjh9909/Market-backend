@@ -5,9 +5,11 @@ import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.chat.response.ChatRoomList;
 import com.example.marketbackend.dto.chat.response.ChatRoomListResponse;
 import com.example.marketbackend.dto.chat.response.ChatRoomNumResponse;
+import com.example.marketbackend.entity.Chat;
 import com.example.marketbackend.entity.ChatRoom;
 import com.example.marketbackend.entity.ProductPost;
 import com.example.marketbackend.entity.User;
+import com.example.marketbackend.repository.ChatRepository;
 import com.example.marketbackend.repository.ChatRoomRepository;
 import com.example.marketbackend.repository.ProductPostRepository;
 import com.example.marketbackend.repository.UserRepository;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +32,7 @@ public class ChatRoomService {
 
     private final AuthenticationService authenticationService;
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatRepository chatRepository;
     private final ProductPostRepository productPostRepository;
     private final UserRepository userRepository;
 
@@ -59,15 +63,28 @@ public class ChatRoomService {
     }
 
     public Response getChatRoomList(Pageable pageable) {
-        long me = authenticationService.getUserId();
+        long userId = authenticationService.getUserId();
 
-        Page<ChatRoom> chatRooms = chatRoomRepository.findByUser1IdOrUser2Id(me, me, pageable);
+        Page<ChatRoom> chatRooms = chatRoomRepository.findByUser1IdOrUser2Id(userId, userId, pageable);
 
-        List<ChatRoomList> chatRoomList = chatRooms.stream()
-                .map(chatRoom -> createChatRoomList(chatRoom, me)).collect(Collectors.toList());
+        List<ChatRoomList> list = new ArrayList<>();
 
-        long count = chatRooms.getTotalElements();
+        int notValidRoom = 0;
 
-        return new Response(ResponseMessage.CHAT_ROOMS_GET, new ChatRoomListResponse(count, chatRoomList));
+        for (ChatRoom chatRoom : chatRooms) {
+            Optional<Chat> chat = chatRepository.findFirstByRoomIdOrderByCreatedAtDesc(chatRoom.getId());
+
+            if(chat.isEmpty()) {
+                notValidRoom++;
+                continue;
+            }
+
+            ChatRoomList chatRoomList = createChatRoomList(chatRoom, userId, chat.get());
+            list.add(chatRoomList);
+        }
+
+        long count = chatRooms.getTotalElements() - notValidRoom;
+
+        return new Response(ResponseMessage.CHAT_ROOMS_GET, new ChatRoomListResponse(count, list));
     }
 }
