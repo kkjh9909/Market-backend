@@ -67,4 +67,12 @@ public class UserService {
 
         return new Response(ResponseMessage.PROFILE_GET, new UserProfileResponse(user.get().getProfileImage(), user.get().getNickname()));
     }
+
+    public Response getId() {
+        long userId = authenticationService.getUserId();
+
+        Optional<User> user = userRepository.findById(userId);
+
+        return new Response(ResponseMessage.ID_GET, user.get().getId());
+    }
 }
