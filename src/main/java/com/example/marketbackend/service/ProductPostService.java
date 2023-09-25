@@ -3,10 +3,7 @@ package com.example.marketbackend.service;
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.post.request.ProductPostWriteRequest;
-import com.example.marketbackend.dto.post.response.ProductPostGetResponse;
-import com.example.marketbackend.dto.post.response.ProductPostWriteResponse;
-import com.example.marketbackend.dto.post.response.ProductPostsByCategoryResponse;
-import com.example.marketbackend.dto.post.response.ProductPostsGetResponse;
+import com.example.marketbackend.dto.post.response.*;
 import com.example.marketbackend.dto.post.vo.ProductPostDTO;
 import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
 import com.example.marketbackend.dto.post.vo.UserInfoDTO;
@@ -21,9 +18,6 @@ import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +38,7 @@ public class ProductPostService {
     private final ProductPostFavoriteRepository productPostFavoriteRepository;
     private final AuthenticationService authenticationService;
 
+    @Transactional
     public ProductPostWriteResponse write(ProductPostWriteRequest productPostWriteRequest) {
         long userId = authenticationService.getUserId();
 
@@ -51,14 +46,13 @@ public class ProductPostService {
 
         ProductPost productPost = writeProductPost(productPostWriteRequest, user.orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
 
-        List<ProductPhoto> photos = new ArrayList<>();
-        for (String url : productPostWriteRequest.getImages()) {
-            ProductPhoto photo = ProductPhoto.from(productPost, url);
-            photos.add(photo);
-        }
+//        List<ProductPhoto> photos = new ArrayList<>();
+//        for (String url : productPostWriteRequest.getImages()) {
+//            ProductPhoto photo = ProductPhoto.from(productPost, url);
+//            photos.add(photo);
+//        }
 
         productPostRepository.save(productPost);
-        productPhotoRepository.saveAll(photos);
 
         return new ProductPostWriteResponse(ResponseMessage.POST_WRITE);
     }
@@ -112,6 +106,24 @@ public class ProductPostService {
 
         ProductPostsGetResponse productPostsGetResponse = new ProductPostsGetResponse(count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
 
-        return new Response(ResponseMessage.MY_POST_GET, productPostsGetResponse);
+        return new Response(ResponseMessage.MY_POSTS_GET, productPostsGetResponse);
+    }
+
+    public Response getMyPost(long postId) {
+        Optional<ProductPost> post = productPostRepository.findById(postId);
+
+        MyProductPostResponse myProductPostResponse = MyProductPostResponse.makeMyPostResponse(post.get());
+
+        return new Response(ResponseMessage.MY_POST_GET, myProductPostResponse);
+    }
+
+    @Transactional
+    public Response updateMyPost(long postId, ProductPostWriteRequest request) {
+        Optional<ProductPost> post = productPostRepository.findById(postId);
+
+        productPhotoRepository.deleteByPostId(postId);
+        post.get().update(request);
+
+        return new Response(ResponseMessage.MY_POST_UPDATE, null);
     }
 }

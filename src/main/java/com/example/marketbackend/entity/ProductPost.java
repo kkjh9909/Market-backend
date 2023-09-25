@@ -90,4 +90,17 @@ public class ProductPost {
     public void decreaseFavorite() {
         this.favorites--;
     }
+
+    public ProductPost update(ProductPostWriteRequest request) {
+        this.content = request.getContent();
+        this.price = request.getPrice();
+        this.isDeal = request.isDeal();
+        this.title = request.getTitle();
+        this.thumbnail = request.getImages()[0];
+
+        this.productPhotos.clear();
+        this.addPhotos(List.of(request.getImages()));
+
+        return this;
+    }
 }

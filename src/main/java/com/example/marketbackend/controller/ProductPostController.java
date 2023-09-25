@@ -55,4 +55,18 @@ public class ProductPostController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{postId}/edit")
+    public ResponseEntity<?> getMyPost(@PathVariable long postId) {
+        Response response = productPostService.getMyPost(postId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{postId}/edit")
+    public ResponseEntity<?> updateMyPost(@PathVariable long postId, @RequestBody ProductPostWriteRequest productPostWriteRequest) {
+        Response response = productPostService.updateMyPost(postId, productPostWriteRequest);
+
+        return ResponseEntity.ok(response);
+    }
 }
