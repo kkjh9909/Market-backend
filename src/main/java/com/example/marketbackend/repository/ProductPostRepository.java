@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface ProductPostRepository extends JpaRepository<ProductPost, Long>, ProductPostCustomRepository {
 
     Optional<ProductPost> findByIdAndIsDeletedFalse(Long postId);
-    Page<ProductPost> findByAddress(String address, Pageable pageable);
+    Page<ProductPost> findByAddressOrderByCreatedAtDesc(String address, Pageable pageable);
 
     @Query("select p from ProductPost p where p.category = :category and p.isDeleted = false order by (p.favorites + p.chatroomCount) desc")
     List<ProductPost> findAllByCategory(@Param("category") String category);

@@ -9,6 +9,8 @@ import com.example.marketbackend.dto.post.response.ProductPostsGetResponse;
 import com.example.marketbackend.service.ProductPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +38,8 @@ public class ProductPostController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getPosts(@RequestParam Optional<String> address, Pageable pageable) {
+    public ResponseEntity<?> getPosts(@RequestParam Optional<String> address,
+                                      @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Response response = productPostService.getPosts(address.orElse(""), pageable);
 
         return ResponseEntity.ok(response);

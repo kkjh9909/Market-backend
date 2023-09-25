@@ -17,7 +17,9 @@ import com.example.marketbackend.repository.ProductPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +83,7 @@ public class ProductPostService {
         if(address.equals(""))
             posts = productPostRepository.findAll(pageable);
         else
-            posts = productPostRepository.findByAddress(address, pageable);
+            posts = productPostRepository.findByAddressOrderByCreatedAtDesc(address, pageable);
 
         long count = posts.getTotalElements();
 
