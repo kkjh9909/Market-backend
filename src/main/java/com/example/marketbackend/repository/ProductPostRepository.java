@@ -1,6 +1,7 @@
 package com.example.marketbackend.repository;
 
 import com.example.marketbackend.entity.ProductPost;
+import com.example.marketbackend.repository.dsl.ProductPostCustomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductPostRepository extends JpaRepository<ProductPost, Long> {
+public interface ProductPostRepository extends JpaRepository<ProductPost, Long>, ProductPostCustomRepository {
 
     Optional<ProductPost> findByIdAndIsDeletedFalse(Long postId);
     Page<ProductPost> findByAddress(String address, Pageable pageable);
@@ -30,5 +31,6 @@ public interface ProductPostRepository extends JpaRepository<ProductPost, Long> 
 
     Page<ProductPost> findByUserId(long userId, Pageable pageable);
 
-    Page<ProductPost> findByTitleContainingOrContentContainingOrCategoryContaining(String title, String content, String category, Pageable pageable);
+    Page<ProductPost> findByKeyword(String address, String title, String content, String category, Pageable pageable);
+
 }

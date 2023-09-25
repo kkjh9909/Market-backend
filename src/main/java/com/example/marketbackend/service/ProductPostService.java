@@ -135,8 +135,8 @@ public class ProductPostService {
         return new Response(ResponseMessage.MY_POST_DELETE, null);
     }
 
-    public Response searchPost(String keyword, Pageable pageable) {
-        Page<ProductPost> posts = productPostRepository.findByTitleContainingOrContentContainingOrCategoryContaining(keyword, keyword, keyword, pageable);
+    public Response searchPost(String address, String keyword, Pageable pageable) {
+        Page<ProductPost> posts = productPostRepository.findByKeyword(address, keyword, keyword, keyword, pageable);
 
         long count = posts.getTotalElements();
 

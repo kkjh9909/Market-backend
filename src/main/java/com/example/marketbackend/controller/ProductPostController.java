@@ -78,8 +78,9 @@ public class ProductPostController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchPost(@RequestParam("keyword") String keyword, Pageable pageable) {
-        Response response = productPostService.searchPost(keyword, pageable);
+    public ResponseEntity<?> searchPost(@RequestParam("address") String address,
+                                        @RequestParam("keyword") String keyword, Pageable pageable) {
+        Response response = productPostService.searchPost(address, keyword, pageable);
 
         return ResponseEntity.ok(response);
     }
