@@ -69,4 +69,11 @@ public class ProductPostController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{postId}/delete")
+    public ResponseEntity<?> deleteMyPost(@PathVariable long postId) {
+        Response response = productPostService.deleteMyPost(postId);
+
+        return ResponseEntity.ok(response);
+    }
 }

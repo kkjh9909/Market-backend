@@ -18,5 +18,6 @@ public class ResponseMessage {
     public static final String MY_POSTS_GET = "내 작성글 목록 조회 성공";
     public static final String MY_POST_GET = "내 작성글 조회 성공";
     public static final String MY_POST_UPDATE = "내 작성글 수정 성공";
+    public static final String MY_POST_DELETE = "내 작성글 삭제 성공";
 
 }

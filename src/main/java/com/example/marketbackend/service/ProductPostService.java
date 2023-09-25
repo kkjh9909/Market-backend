@@ -126,4 +126,12 @@ public class ProductPostService {
 
         return new Response(ResponseMessage.MY_POST_UPDATE, null);
     }
+
+    public Response deleteMyPost(long postId) {
+        Optional<ProductPost> post = productPostRepository.findById(postId);
+
+        productPostRepository.delete(post.get());
+
+        return new Response(ResponseMessage.MY_POST_DELETE, null);
+    }
 }
