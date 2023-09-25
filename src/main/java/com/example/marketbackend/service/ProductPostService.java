@@ -134,4 +134,17 @@ public class ProductPostService {
 
         return new Response(ResponseMessage.MY_POST_DELETE, null);
     }
+
+    public Response searchPost(String keyword, Pageable pageable) {
+        Page<ProductPost> posts = productPostRepository.findByTitleContainingOrContentContainingOrCategoryContaining(keyword, keyword, keyword, pageable);
+
+        long count = posts.getTotalElements();
+
+
+        List<ProductPostListDTO> collect = posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList());
+
+        ProductPostsSearchResponse result = new ProductPostsSearchResponse(count, collect);
+
+        return new Response(ResponseMessage.POSTS_SEARCH, result);
+    }
 }

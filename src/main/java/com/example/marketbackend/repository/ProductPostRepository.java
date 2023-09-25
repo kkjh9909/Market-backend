@@ -29,4 +29,6 @@ public interface ProductPostRepository extends JpaRepository<ProductPost, Long> 
     int increaseChatrooms(@Param("id") long id);
 
     Page<ProductPost> findByUserId(long userId, Pageable pageable);
+
+    Page<ProductPost> findByTitleContainingOrContentContainingOrCategoryContaining(String title, String content, String category, Pageable pageable);
 }
