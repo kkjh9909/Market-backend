@@ -7,7 +7,6 @@ import com.example.marketbackend.dto.post.response.*;
 import com.example.marketbackend.dto.post.vo.ProductPostDTO;
 import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
 import com.example.marketbackend.dto.post.vo.UserInfoDTO;
-import com.example.marketbackend.entity.ProductPhoto;
 import com.example.marketbackend.entity.ProductPost;
 import com.example.marketbackend.entity.ProductPostFavorite;
 import com.example.marketbackend.entity.User;
@@ -17,13 +16,10 @@ import com.example.marketbackend.repository.ProductPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,7 +52,7 @@ public class ProductPostService {
 
         productPostRepository.save(productPost);
 
-        return new ProductPostWriteResponse(ResponseMessage.POST_WRITE);
+        return new ProductPostWriteResponse(ResponseMessage.PRODUCT_POST_WRITE);
     }
 
     @Transactional

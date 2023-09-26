@@ -4,7 +4,7 @@ public class ResponseMessage {
 
     public static final String SIGN_UP = "회원가입 성공";
     public static final String SIGN_IN = "로그인 성공";
-    public static final String POST_WRITE = "판매글 작성 성공";
+    public static final String PRODUCT_POST_WRITE = "물건 판매글 작성 성공";
     public static final String POST_GET = "판매글 조회 성공";
     public static final String POSTS_GET = "판매글 목록 조회 성공";
     public static final String ADD_FAVORITE = "판매글 좋아요 성공";
@@ -20,5 +20,8 @@ public class ResponseMessage {
     public static final String MY_POST_UPDATE = "내 작성글 수정 성공";
     public static final String MY_POST_DELETE = "내 작성글 삭제 성공";
     public static final String POSTS_SEARCH = "게시글 검색 성공";
+
+
+    public static final String NEIGHBOR_POSTS_SEARCH = "동네 게시글 검색 성공";
 
 }
