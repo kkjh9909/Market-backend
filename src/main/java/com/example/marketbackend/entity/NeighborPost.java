@@ -20,8 +20,10 @@ public class NeighborPost {
     @Id @GeneratedValue
     private long id;
 
+    @Column(length = 10000)
     private String title;
 
+    @Column(length = 10000)
     private String content;
 
     private String category;
@@ -37,7 +39,7 @@ public class NeighborPost {
     private int hits = 0;
 
     @Builder.Default
-    private int favorites = 0;
+    private int likes = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

@@ -4,15 +4,17 @@ import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.neighbor.post.request.NeighborPostWriteRequest;
 import com.example.marketbackend.service.NeighborPostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/neighbor/post")
+@RequestMapping("/api/neighbor/post")
 public class NeighborPostController {
 
     private final NeighborPostService neighborPostService;
@@ -20,6 +22,14 @@ public class NeighborPostController {
     @PostMapping("/write")
     public ResponseEntity<?> writePost(@RequestBody NeighborPostWriteRequest request) {
         Response response = neighborPostService.write(request);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getPostList(@RequestParam Optional<String> category,
+                                         @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Response response = neighborPostService.getPostList(category, pageable);
 
         return ResponseEntity.ok(response);
     }

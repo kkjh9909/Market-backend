@@ -22,6 +22,7 @@ public class ResponseMessage {
     public static final String POSTS_SEARCH = "게시글 검색 성공";
 
 
-    public static final String NEIGHBOR_POSTS_SEARCH = "동네 게시글 검색 성공";
+    public static final String NEIGHBOR_POSTS_GET = "일상 게시글 리스트 조회 성공";
+    public static final String NEIGHBOR_POST_WRITE = "일상 게시글 작성 성공";
 
 }
