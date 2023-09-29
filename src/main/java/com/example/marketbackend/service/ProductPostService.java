@@ -44,12 +44,6 @@ public class ProductPostService {
 
         ProductPost productPost = writeProductPost(productPostWriteRequest, user.orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
 
-//        List<ProductPhoto> photos = new ArrayList<>();
-//        for (String url : productPostWriteRequest.getImages()) {
-//            ProductPhoto photo = ProductPhoto.from(productPost, url);
-//            photos.add(photo);
-//        }
-
         productPostRepository.save(productPost);
 
         return new ProductPostWriteResponse(ResponseMessage.PRODUCT_POST_WRITE);
