@@ -39,7 +39,7 @@ public class JwtProvider {
         claims.put("name", user.getUserName());
 
         Date now = new Date();
-        Date expiredDate = new Date(now.getTime() + 1_800_000);
+        Date expiredDate = new Date(now.getTime() + 30L * 24 * 60 * 60 * 1000);
 
         return Jwts.builder()
                 .setClaims(claims)
