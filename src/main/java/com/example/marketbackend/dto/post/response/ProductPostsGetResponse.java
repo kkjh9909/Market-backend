@@ -1,8 +1,6 @@
 package com.example.marketbackend.dto.post.response;
 
-import com.example.marketbackend.dto.post.vo.ProductPostDTO;
 import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
-import com.example.marketbackend.dto.post.vo.UserInfoDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

@@ -9,14 +9,13 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class ProductPostDTO {
+public class ProductPostDto {
 
     @JsonProperty("title")
     private String title;
@@ -39,20 +38,14 @@ public class ProductPostDTO {
     @JsonProperty("images")
     private List<String> images;
 
-    @JsonProperty("my_post")
-    private boolean isMine;
-
     @JsonProperty("created_time")
     private LocalDateTime createdTime;
-
-    @JsonProperty("is_like")
-    private boolean isLike;
 
     @JsonProperty("price")
     private int price;
 
-    public static ProductPostDTO from(ProductPost post, long userId, ProductPostFavorite like) {
-        return ProductPostDTO.builder()
+    public static ProductPostDto makeProductPostDto(ProductPost post) {
+        return ProductPostDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
                 .category(post.getCategory())
@@ -60,9 +53,7 @@ public class ProductPostDTO {
                 .price(post.getPrice())
                 .favorites(post.getFavorites())
                 .chatroom(post.getChatroomCount())
-                .isLike(like != null)
                 .images(post.getProductPhotos().stream().map(ProductPhoto::getImageUrl).collect(Collectors.toList()))
-                .isMine(post.getUser().getId() == userId)
                 .createdTime(post.getCreatedAt())
                 .build();
     }

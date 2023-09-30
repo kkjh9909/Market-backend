@@ -4,9 +4,9 @@ import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.post.request.ProductPostWriteRequest;
 import com.example.marketbackend.dto.post.response.*;
-import com.example.marketbackend.dto.post.vo.ProductPostDTO;
+import com.example.marketbackend.dto.post.vo.ProductPostDto;
 import com.example.marketbackend.dto.post.vo.ProductPostListDTO;
-import com.example.marketbackend.dto.post.vo.UserInfoDTO;
+import com.example.marketbackend.dto.post.vo.UserInfoDto;
 import com.example.marketbackend.entity.ProductPost;
 import com.example.marketbackend.entity.ProductPostFavorite;
 import com.example.marketbackend.entity.User;
@@ -50,20 +50,21 @@ public class ProductPostService {
     }
 
     @Transactional
-    public ProductPostGetResponse getPost(long postId) {
+    public ProductPostGetResponse getPostDetail(long postId) {
         productPostRepository.increaseHits(postId);
-
-        Optional<ProductPost> post = productPostRepository.findByIdAndIsDeletedFalse(postId);
 
         long userId = authenticationService.getUserId();
 
+        Optional<ProductPost> post = productPostRepository.findByIdAndIsDeletedFalse(postId);
         Optional<ProductPostFavorite> like = productPostFavoriteRepository.findByPostIdAndUserId(post.get().getId(), userId);
 
+        boolean isMine = post.get().getUser().getId() == userId;
+        boolean isLike = like.isPresent();
 
-        ProductPostDTO productPostDTO = ProductPostDTO.from(post.get(), userId, like.orElse(null));
-        Optional<User> user = userRepository.findById(post.get().getUser().getId());
+        ProductPostDto productPostDTO = ProductPostDto.makeProductPostDto(post.get());
 
-        UserInfoDTO userInfoDTO = UserInfoDTO.from(user.get());
+        UserInfoDto userInfoDTO = UserInfoDto.makeUserInfo(post.get().getUser(), isMine, isLike);
+
         return new ProductPostGetResponse(ResponseMessage.POST_GET, productPostDTO, userInfoDTO);
     }
 

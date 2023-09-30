@@ -31,8 +31,8 @@ public class ProductPostController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<?> getPost(@PathVariable long postId) {
-        ProductPostGetResponse post = productPostService.getPost(postId);
+    public ResponseEntity<?> getPostDetail(@PathVariable long postId) {
+        ProductPostGetResponse post = productPostService.getPostDetail(postId);
 
         return ResponseEntity.ok(post);
     }

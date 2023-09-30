@@ -1,7 +1,7 @@
 package com.example.marketbackend.dto.post.response;
 
-import com.example.marketbackend.dto.post.vo.ProductPostDTO;
-import com.example.marketbackend.dto.post.vo.UserInfoDTO;
+import com.example.marketbackend.dto.post.vo.ProductPostDto;
+import com.example.marketbackend.dto.post.vo.UserInfoDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -12,12 +12,12 @@ public class ProductPostGetResponse {
     private String message;
 
     @JsonProperty("post_info")
-    private ProductPostDTO productPostDTO;
+    private ProductPostDto productPostDTO;
 
     @JsonProperty("user_info")
-    private UserInfoDTO userInfoDTO;
+    private UserInfoDto userInfoDTO;
 
-    public ProductPostGetResponse(String message, ProductPostDTO productPostDTO, UserInfoDTO userInfoDTO) {
+    public ProductPostGetResponse(String message, ProductPostDto productPostDTO, UserInfoDto userInfoDTO) {
         this.message = message;
         this.productPostDTO = productPostDTO;
         this.userInfoDTO = userInfoDTO;
