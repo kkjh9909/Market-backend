@@ -3,8 +3,7 @@ package com.example.marketbackend.service;
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.neighbor.post.request.NeighborPostWriteRequest;
-import com.example.marketbackend.dto.neighbor.post.response.NeighborPostCardResponse;
-import com.example.marketbackend.dto.neighbor.post.response.NeighborPostsListResponse;
+import com.example.marketbackend.dto.neighbor.post.response.*;
 import com.example.marketbackend.entity.NeighborPost;
 import com.example.marketbackend.entity.User;
 import com.example.marketbackend.repository.NeighborPostRepository;
@@ -12,7 +11,6 @@ import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,5 +55,20 @@ public class NeighborPostService {
         NeighborPostsListResponse res = new NeighborPostsListResponse(count, postsDto);
 
         return new Response(ResponseMessage.NEIGHBOR_POSTS_GET, res);
+    }
+
+    public Response getPostDetail(long postId) {
+        long userId = authenticationService.getUserId();
+
+        Optional<NeighborPost> post = neighborPostRepository.findById(postId);
+        Optional<User> user = userRepository.findById(userId);
+
+        NeighborPostDetail postDetail = NeighborPostDetail.makeNeighborPostDetail(post.get());
+
+        boolean isMine = user.get().getId() == post.get().getUser().getId();
+
+        NeighborPostUser userDetail = NeighborPostUser.makeNeighborPostUser(user.get(), isMine);
+
+        return new Response(ResponseMessage.NEIGHBOR_POST_GET, new NeighborPostDetailResponse(postDetail, userDetail));
     }
 }

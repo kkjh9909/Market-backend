@@ -33,4 +33,11 @@ public class NeighborPostController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getPostDetail(@PathVariable long postId) {
+        Response response = neighborPostService.getPostDetail(postId);
+
+        return ResponseEntity.ok(response);
+    }
 }
