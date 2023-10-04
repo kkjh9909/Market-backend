@@ -32,18 +32,18 @@ public class UserService {
     private final AuthenticationService authenticationService;
 
     @Transactional
-    public UserSignUpResponse signUp(UserSignUpRequest userSignUpRequest) {
+    public Response signUp(UserSignUpRequest userSignUpRequest) {
         String password = passwordEncoder.encode(userSignUpRequest.getPassword());
 
         User user = createUser(userSignUpRequest, password);
 
         userRepository.save(user);
 
-        return new UserSignUpResponse(ResponseMessage.SIGN_UP);
+        return new Response(ResponseMessage.SIGN_UP, new UserSignUpResponse(user.getId()));
     }
 
 
-    public UserSignInResponse signIn(UserSignInRequest userSignInRequest) {
+    public Response signIn(UserSignInRequest userSignInRequest) {
         Optional<User> user = userRepository.findByUserId(userSignInRequest.getUserId());
 
         if(user.isEmpty())
@@ -54,7 +54,7 @@ public class UserService {
 
         if(passwordEncoder.matches(inputPassword, encodedPassword)) {
             String accessToken = jwtProvider.createAccessToken(user.get());
-            return new UserSignInResponse(ResponseMessage.SIGN_IN, accessToken);
+            return new Response(ResponseMessage.SIGN_IN, new UserSignInResponse(accessToken));
         }
         else
             throw new LoginException("비밀번호가 틀렸습니다.");

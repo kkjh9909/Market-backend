@@ -25,21 +25,21 @@ public class ProductPostController {
 
     @PostMapping("/write")
     public ResponseEntity<?> write(@RequestBody ProductPostWriteRequest productPostWriteRequest) {
-        ProductPostWriteResponse response = productPostService.write(productPostWriteRequest);
+        Response response = productPostService.write(productPostWriteRequest);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPostDetail(@PathVariable long postId) {
-        ProductPostGetResponse post = productPostService.getPostDetail(postId);
+        Response post = productPostService.getPostDetail(postId);
 
         return ResponseEntity.ok(post);
     }
 
     @GetMapping("/list")
     public ResponseEntity<?> getPosts(@RequestParam Optional<String> address,
-                                      @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+                                      @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
         Response response = productPostService.getPosts(address.orElse(""), pageable);
 
         return ResponseEntity.ok(response);
@@ -47,7 +47,7 @@ public class ProductPostController {
 
     @GetMapping("/list/{category}")
     public ResponseEntity<?> getPostsByCategory(@PathVariable String category) {
-        ProductPostsByCategoryResponse posts = productPostService.getPostsByCategory(category);
+        Response posts = productPostService.getPostsByCategory(category);
 
         return ResponseEntity.ok(posts);
     }

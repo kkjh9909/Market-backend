@@ -20,14 +20,14 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserSignUpRequest userSignUpRequest) {
-        UserSignUpResponse response = userService.signUp(userSignUpRequest);
+        Response response = userService.signUp(userSignUpRequest);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody UserSignInRequest userSignInRequest) {
-        UserSignInResponse response = userService.signIn(userSignInRequest);
+        Response response = userService.signIn(userSignInRequest);
 
         return ResponseEntity.ok(response);
     }

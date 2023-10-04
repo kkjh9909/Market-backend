@@ -1,13 +1,13 @@
 package com.example.marketbackend.dto.post.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ProductPostWriteResponse {
 
-    private String message;
-
-    public ProductPostWriteResponse(String message) {
-        this.message = message;
-    }
+    @JsonProperty("post_id")
+    private long postId;
 }

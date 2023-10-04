@@ -37,20 +37,20 @@ public class ProductPostService {
     private final AuthenticationService authenticationService;
 
     @Transactional
-    public ProductPostWriteResponse write(ProductPostWriteRequest productPostWriteRequest) {
+    public Response write(ProductPostWriteRequest productPostWriteRequest) {
         long userId = authenticationService.getUserId();
 
         Optional<User> user = userRepository.findById(userId);
 
-        ProductPost productPost = writeProductPost(productPostWriteRequest, user.orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
+        ProductPost post = writeProductPost(productPostWriteRequest, user.orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
 
-        productPostRepository.save(productPost);
+        productPostRepository.save(post);
 
-        return new ProductPostWriteResponse(ResponseMessage.PRODUCT_POST_WRITE);
+        return new Response(ResponseMessage.PRODUCT_POST_WRITE, new ProductPostWriteResponse(post.getId()));
     }
 
     @Transactional
-    public ProductPostGetResponse getPostDetail(long postId) {
+    public Response getPostDetail(long postId) {
         productPostRepository.increaseHits(postId);
 
         long userId = authenticationService.getUserId();
@@ -65,7 +65,7 @@ public class ProductPostService {
 
         UserInfoDto userInfoDTO = UserInfoDto.makeUserInfo(post.get().getUser(), isMine, isLike);
 
-        return new ProductPostGetResponse(ResponseMessage.POST_GET, productPostDTO, userInfoDTO);
+        return new Response(ResponseMessage.POST_GET, new ProductPostGetResponse(productPostDTO, userInfoDTO));
     }
 
     public Response getPosts(String address, Pageable pageable) {
@@ -83,12 +83,12 @@ public class ProductPostService {
         return new Response(ResponseMessage.POSTS_GET, productPostsGetResponse);
     }
 
-    public ProductPostsByCategoryResponse getPostsByCategory(String category) {
+    public Response getPostsByCategory(String category) {
         List<ProductPost> posts = productPostRepository.findAllByCategory(category);
 
         long count = posts.size();
 
-        return new ProductPostsByCategoryResponse(ResponseMessage.POSTS_GET, count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList()));
+        return new Response(ResponseMessage.POSTS_GET, new ProductPostsByCategoryResponse(count, posts.stream().map(ProductPostListDTO::from).collect(Collectors.toList())));
     }
 
     public Response getMyPosts(Pageable pageable) {
