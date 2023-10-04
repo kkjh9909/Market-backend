@@ -21,6 +21,10 @@ public class NeighborComment {
 
     private LocalDateTime createdAt;
 
+    @Builder.Default
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private NeighborComment parent;
@@ -30,6 +34,9 @@ public class NeighborComment {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private NeighborPost post;
+
+    @Builder.Default
+    private int likes = 0;
 
     public NeighborComment() {}
 
