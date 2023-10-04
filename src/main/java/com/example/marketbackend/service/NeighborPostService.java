@@ -57,7 +57,10 @@ public class NeighborPostService {
         return new Response(ResponseMessage.NEIGHBOR_POSTS_GET, res);
     }
 
+    @Transactional
     public Response getPostDetail(long postId) {
+        neighborPostRepository.increaseHits(postId);
+
         long userId = authenticationService.getUserId();
 
         Optional<NeighborPost> post = neighborPostRepository.findById(postId);
