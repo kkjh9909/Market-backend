@@ -25,5 +25,6 @@ public class ResponseMessage {
     public static final String NEIGHBOR_POSTS_GET = "일상 게시글 리스트 조회 성공";
     public static final String NEIGHBOR_POST_WRITE = "일상 게시글 작성 성공";
     public static final String NEIGHBOR_POST_GET = "일상 게시글 조회 성공";
+    public static final String NEIGHBOR_ADD_LIKE = "일상 게시글 좋아요 성공";
 
 }

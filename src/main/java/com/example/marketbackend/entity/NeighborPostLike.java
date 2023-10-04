@@ -1,8 +1,11 @@
 package com.example.marketbackend.entity;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
 public class NeighborPostLike {
 
     @Id @GeneratedValue
@@ -13,4 +16,19 @@ public class NeighborPostLike {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private NeighborPost post;
+
+    public NeighborPostLike() {}
+
+    public NeighborPostLike(User user, NeighborPost post) {
+        this.user = user;
+        this.post = post;
+    }
+
+    public void addLike() {
+        post.increaseLike();
+    }
+
+    public void deleteLike() {
+        post.decreaseLike();
+    }
 }

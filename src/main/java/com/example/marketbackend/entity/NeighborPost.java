@@ -72,4 +72,12 @@ public class NeighborPost {
 
         this.photos.addAll(photos);
     }
+
+    public void increaseLike() {
+        this.likes++;
+    }
+
+    public void decreaseLike() {
+        this.likes--;
+    }
 }
