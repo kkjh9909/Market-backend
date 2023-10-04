@@ -12,6 +12,7 @@ import com.example.marketbackend.repository.NeighborPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -24,13 +25,14 @@ public class LikeService {
     private final NeighborPostRepository neighborPostRepository;
     private final NeighborPostLikeRepository neighborPostLikeRepository;
 
+    @Transactional
     public Response likePost(long postId) {
         long userId = authenticationService.getUserId();
 
         Optional<NeighborPost> post = neighborPostRepository.findById(postId);
         Optional<User> user = userRepository.findById(userId);
 
-        Optional<NeighborPostLike> isLike = neighborPostLikeRepository.findByPostIdAndUserId(post.get().getId(), user.get().getId());
+        Optional<NeighborPostLike> isLike = neighborPostLikeRepository.findByPostIdAndUserId(postId, userId);
 
         if(isLike.isEmpty()) {
             NeighborPostLike favorite = new NeighborPostLike(user.get(), post.get());
@@ -43,13 +45,13 @@ public class LikeService {
         return new Response(ResponseMessage.NEIGHBOR_ADD_LIKE, new LikeAddResponse(likeCount));
     }
 
+    @Transactional
     public Response dislikePost(long postId) {
         long userId = authenticationService.getUserId();
 
         Optional<NeighborPost> post = neighborPostRepository.findById(postId);
-        Optional<User> user = userRepository.findById(userId);
 
-        Optional<NeighborPostLike> isLike = neighborPostLikeRepository.findByPostIdAndUserId(post.get().getId(), user.get().getId());
+        Optional<NeighborPostLike> isLike = neighborPostLikeRepository.findByPostIdAndUserId(postId, userId);
 
         if(isLike.isPresent()) {
             isLike.get().deleteLike();

@@ -26,13 +26,17 @@ public class NeighborPostUser {
     @JsonProperty("my_post")
     private boolean isMine;
 
-    public static NeighborPostUser makeNeighborPostUser(User user, boolean isMine) {
+    @JsonProperty("is_like")
+    private boolean isLike;
+
+    public static NeighborPostUser makeNeighborPostUser(User user, boolean isMine, boolean isLike) {
         return NeighborPostUser.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())
                 .address(user.getAddress())
                 .profile(user.getProfileImage())
                 .isMine(isMine)
+                .isLike(isLike)
                 .build();
     }
 }

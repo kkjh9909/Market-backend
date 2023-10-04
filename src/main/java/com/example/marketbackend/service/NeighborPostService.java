@@ -5,7 +5,9 @@ import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.neighbor.post.request.NeighborPostWriteRequest;
 import com.example.marketbackend.dto.neighbor.post.response.*;
 import com.example.marketbackend.entity.NeighborPost;
+import com.example.marketbackend.entity.NeighborPostLike;
 import com.example.marketbackend.entity.User;
+import com.example.marketbackend.repository.NeighborPostLikeRepository;
 import com.example.marketbackend.repository.NeighborPostRepository;
 import com.example.marketbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class NeighborPostService {
 
     private final AuthenticationService authenticationService;
     private final NeighborPostRepository neighborPostRepository;
+    private final NeighborPostLikeRepository neighborPostLikeRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -65,12 +68,14 @@ public class NeighborPostService {
 
         Optional<NeighborPost> post = neighborPostRepository.findById(postId);
         Optional<User> user = userRepository.findById(userId);
+        Optional<NeighborPostLike> like = neighborPostLikeRepository.findByPostIdAndUserId(postId, userId);
 
         NeighborPostDetail postDetail = NeighborPostDetail.makeNeighborPostDetail(post.get());
 
         boolean isMine = user.get().getId() == post.get().getUser().getId();
+        boolean isLike = like.isPresent();
 
-        NeighborPostUser userDetail = NeighborPostUser.makeNeighborPostUser(user.get(), isMine);
+        NeighborPostUser userDetail = NeighborPostUser.makeNeighborPostUser(user.get(), isMine, isLike);
 
         return new Response(ResponseMessage.NEIGHBOR_POST_GET, new NeighborPostDetailResponse(postDetail, userDetail));
     }
