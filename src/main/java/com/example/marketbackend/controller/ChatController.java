@@ -1,5 +1,6 @@
 package com.example.marketbackend.controller;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.chat.request.ChatRequest;
 import com.example.marketbackend.dto.chat.response.ChatListResponse;
 import com.example.marketbackend.dto.chat.response.ChatRoomNumResponse;
@@ -27,7 +28,7 @@ public class ChatController {
 
     @GetMapping("/api/chats/{roomId}")
     public ResponseEntity<?> getChatList(@PathVariable long roomId, Pageable pageable) {
-        ChatListResponse response = chatService.getChatList(roomId, pageable);
+        Response response = chatService.getChatList(roomId, pageable);
 
         return ResponseEntity.ok(response);
     }

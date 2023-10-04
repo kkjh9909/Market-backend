@@ -30,7 +30,7 @@ public class FavoriteService {
     private final ProductPostFavoriteRepository productPostFavoriteRepository;
     private final AuthenticationService authenticationService;
 
-    public FavoriteAddResponse likePost(long postId) {
+    public Response likePost(long postId) {
         long userId = authenticationService.getUserId();
 
         Optional<ProductPost> post = productPostRepository.findById(postId);
@@ -46,10 +46,10 @@ public class FavoriteService {
 
         int favoriteCount = post.get().getFavorites();
 
-        return new FavoriteAddResponse(ResponseMessage.ADD_FAVORITE, favoriteCount);
+        return new Response(ResponseMessage.ADD_FAVORITE, new FavoriteAddResponse(favoriteCount));
     }
 
-    public FavoriteDeleteResponse dislikePost(long postId) {
+    public Response dislikePost(long postId) {
         long userId = authenticationService.getUserId();
 
         Optional<ProductPost> post = productPostRepository.findById(postId);
@@ -64,7 +64,7 @@ public class FavoriteService {
 
         int favoriteCount = post.get().getFavorites();
 
-        return new FavoriteDeleteResponse(ResponseMessage.DELETE_FAVORITE, favoriteCount);
+        return new Response(ResponseMessage.DELETE_FAVORITE, new FavoriteDeleteResponse(favoriteCount));
     }
 
     public Response getFavoritePosts(Pageable pageable) {

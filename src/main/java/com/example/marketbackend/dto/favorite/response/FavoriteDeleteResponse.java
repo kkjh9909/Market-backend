@@ -8,9 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class FavoriteDeleteResponse {
 
-    @JsonProperty("message")
-    private String message;
-
     @JsonProperty("favorite_count")
     private int favoriteCount;
 }

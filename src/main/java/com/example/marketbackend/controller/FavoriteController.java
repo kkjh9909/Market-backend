@@ -18,14 +18,14 @@ public class FavoriteController {
 
     @PostMapping("/{postId}")
     public ResponseEntity<?> addFavorite(@PathVariable long postId) {
-        FavoriteAddResponse response = favoriteService.likePost(postId);
+        Response response = favoriteService.likePost(postId);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deleteFavorite(@PathVariable long postId) {
-        FavoriteDeleteResponse response = favoriteService.dislikePost(postId);
+        Response response = favoriteService.dislikePost(postId);
 
         return ResponseEntity.ok(response);
     }

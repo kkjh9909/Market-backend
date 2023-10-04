@@ -8,9 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ChatRoomNumResponse {
 
-    @JsonProperty("message")
-    private String message;
-
     @JsonProperty("chatroom_number")
     private Long chatroomNumber;
 

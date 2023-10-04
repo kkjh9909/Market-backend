@@ -20,7 +20,7 @@ public class ChatRoomController {
 
     @GetMapping("/chatroom")
     public ResponseEntity<?> getChatRoom(@RequestParam long postId, @RequestParam long receiverId) {
-        ChatRoomNumResponse response = chatRoomService.getChatRoomNum(postId, receiverId);
+        Response response = chatRoomService.getChatRoomNum(postId, receiverId);
 
         return ResponseEntity.ok(response);
     }

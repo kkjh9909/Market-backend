@@ -1,5 +1,6 @@
 package com.example.marketbackend.service;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.chat.request.ChatRequest;
 import com.example.marketbackend.dto.chat.response.ChatList;
@@ -34,14 +35,14 @@ public class ChatService {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChatRepository chatRepository;
 
-    public ChatListResponse getChatList(long roomId, Pageable pageable) {
+    public Response getChatList(long roomId, Pageable pageable) {
         Page<Chat> chats = chatRepository.findByRoomIdOrderByCreatedAtDesc(roomId, pageable);
 
         long count = chats.getTotalElements();
 
         List<ChatResponse> chatResponseList = chats.stream().map(ChatResponse::from).collect(Collectors.toList());
 
-        return new ChatListResponse(ResponseMessage.CHATS_LIST, count, new ChatList(chatResponseList));
+        return new Response(ResponseMessage.CHATS_LIST, new ChatListResponse(count, new ChatList(chatResponseList)));
     }
 
     public void sendMessage(long chatroom, ChatRequest message, int senderId) {

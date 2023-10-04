@@ -37,7 +37,7 @@ public class ChatRoomService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ChatRoomNumResponse getChatRoomNum(long postId, long receiverId) {
+    public Response getChatRoomNum(long postId, long receiverId) {
         long senderId = authenticationService.getUserId();
 
         long user1 = Math.min(senderId, receiverId);
@@ -46,7 +46,7 @@ public class ChatRoomService {
         Optional<ChatRoom> room = chatRoomRepository.findByUser1IdAndUser2IdAndPostId(user1, user2, postId);
 
         if(room.isPresent())
-            return new ChatRoomNumResponse(ResponseMessage.CHAT_ROOM, room.get().getId(), senderId);
+            return new Response(ResponseMessage.CHAT_ROOM, new ChatRoomNumResponse(room.get().getId(), senderId));
         else {
             Optional<User> sender = userRepository.findById(user1);
             Optional<User> receiver = userRepository.findById(user2);
@@ -58,7 +58,7 @@ public class ChatRoomService {
 
             productPostRepository.increaseChatrooms(postId);
 
-            return new ChatRoomNumResponse(ResponseMessage.CHAT_ROOM, newRoom.getId(), senderId);
+            return new Response(ResponseMessage.CHAT_ROOM, new ChatRoomNumResponse(newRoom.getId(), senderId));
         }
     }
 

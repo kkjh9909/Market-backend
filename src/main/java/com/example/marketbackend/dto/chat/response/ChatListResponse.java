@@ -8,9 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ChatListResponse {
 
-    @JsonProperty("message")
-    private String message;
-
     @JsonProperty("count")
     private long count;
 
