@@ -1,4 +1,4 @@
-package com.example.marketbackend.dto.like;
+package com.example.marketbackend.dto.like.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
