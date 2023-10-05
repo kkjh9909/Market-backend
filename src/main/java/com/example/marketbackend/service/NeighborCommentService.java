@@ -6,6 +6,7 @@ import com.example.marketbackend.dto.neighbor.comment.request.NeighborCommentWri
 import com.example.marketbackend.dto.neighbor.comment.response.NeighborCommentListResponse;
 import com.example.marketbackend.dto.neighbor.comment.response.NeighborCommentResponse;
 import com.example.marketbackend.dto.neighbor.comment.response.NeighborCommentWriteResponse;
+import com.example.marketbackend.dto.neighbor.comment.response.NeighborReplyResponse;
 import com.example.marketbackend.entity.NeighborComment;
 import com.example.marketbackend.entity.NeighborPost;
 import com.example.marketbackend.entity.User;
@@ -45,7 +46,20 @@ public class NeighborCommentService {
 
         neighborCommentRepository.save(comment);
 
-        return new Response(ResponseMessage.NEIGHBOR_COMMENT_ADD, new NeighborCommentWriteResponse(comment.getId()));
+        if(parent.isPresent()) {
+            parent.get().getReplies().put(comment.getId(), comment);
+
+            NeighborReplyResponse commentDto = NeighborReplyResponse.makeReplyResponse(comment, userId);
+
+            return new Response(ResponseMessage.NEIGHBOR_COMMENT_ADD, new NeighborCommentWriteResponse(commentDto));
+        }
+        else {
+            NeighborCommentResponse commentDto = NeighborCommentResponse.makeCommentResponse(comment, userId);
+
+            return new Response(ResponseMessage.NEIGHBOR_COMMENT_ADD, new NeighborCommentWriteResponse(commentDto));
+        }
+
+
     }
 
     public Response getCommentList(long postId, Pageable pageable) {

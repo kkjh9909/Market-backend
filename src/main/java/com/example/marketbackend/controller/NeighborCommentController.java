@@ -31,7 +31,7 @@ public class NeighborCommentController {
 
     @GetMapping("/{postId}/list")
     public ResponseEntity<?> getCommentList(@PathVariable long postId,
-                                            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
+                                            @PageableDefault(sort = "createdAt", direction = Sort.Direction.ASC, size = 20) Pageable pageable) {
         Response response = neighborCommentService.getCommentList(postId, pageable);
 
         return ResponseEntity.ok(response);

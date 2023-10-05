@@ -7,6 +7,10 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -38,17 +42,24 @@ public class NeighborComment {
     @Builder.Default
     private int likes = 0;
 
+    @OneToMany(mappedBy = "parent")
+    private Map<Long, NeighborComment> replies;
+
     public NeighborComment() {}
 
     public static NeighborComment makeComment(NeighborCommentWriteRequest request,
                                               User user, NeighborPost post,
                                               NeighborComment parent) {
-        return NeighborComment.builder()
+        NeighborComment comment = NeighborComment.builder()
                 .content(request.getContent())
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .post(post)
                 .parent(parent)
                 .build();
+
+        comment.replies = new LinkedHashMap<>();
+
+        return comment;
     }
 }

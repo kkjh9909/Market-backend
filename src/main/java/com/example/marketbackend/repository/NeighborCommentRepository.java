@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface NeighborCommentRepository extends JpaRepository<NeighborComment, Long> {
 
-    @Query(value = "select c from NeighborComment c join fetch c.user join fetch c.post where c.post.id = :postId and c.isDeleted = false ",
+    @Query(value = "select c from NeighborComment c join fetch c.user join fetch c.post where c.post.id = :postId and c.isDeleted = false and c.parent.id is null",
         countQuery = "select count(c) from NeighborComment c where c.isDeleted = false")
     Page<NeighborComment> findComments(@Param("postId") long postId, Pageable pageable);
 
