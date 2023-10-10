@@ -8,8 +8,10 @@ import com.example.marketbackend.dto.neighbor.comment.response.NeighborCommentRe
 import com.example.marketbackend.dto.neighbor.comment.response.NeighborCommentWriteResponse;
 import com.example.marketbackend.dto.neighbor.comment.response.NeighborReplyResponse;
 import com.example.marketbackend.entity.NeighborComment;
+import com.example.marketbackend.entity.NeighborCommentLike;
 import com.example.marketbackend.entity.NeighborPost;
 import com.example.marketbackend.entity.User;
+import com.example.marketbackend.repository.NeighborCommentLikeRepository;
 import com.example.marketbackend.repository.NeighborCommentRepository;
 import com.example.marketbackend.repository.NeighborPostRepository;
 import com.example.marketbackend.repository.UserRepository;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +34,8 @@ public class NeighborCommentService {
     private final AuthenticationService authenticationService;
     private final NeighborPostRepository neighborPostRepository;
     private final NeighborCommentRepository neighborCommentRepository;
+    private final NeighborCommentLikeRepository neighborCommentLikeRepository;
+
 
     @Transactional
     public Response write(long postId, NeighborCommentWriteRequest request) {
@@ -49,12 +54,12 @@ public class NeighborCommentService {
         if(parent.isPresent()) {
             parent.get().getReplies().put(comment.getId(), comment);
 
-            NeighborReplyResponse commentDto = NeighborReplyResponse.makeReplyResponse(comment, userId);
+            NeighborReplyResponse commentDto = NeighborReplyResponse.makeReplyResponse(comment, true, false);
 
             return new Response(ResponseMessage.NEIGHBOR_COMMENT_ADD, new NeighborCommentWriteResponse(commentDto));
         }
         else {
-            NeighborCommentResponse commentDto = NeighborCommentResponse.makeCommentResponse(comment, userId);
+            NeighborCommentResponse commentDto = NeighborCommentResponse.makeCommentResponse(comment, true, false, null);
 
             return new Response(ResponseMessage.NEIGHBOR_COMMENT_ADD, new NeighborCommentWriteResponse(commentDto));
         }
@@ -67,11 +72,28 @@ public class NeighborCommentService {
 
         Page<NeighborComment> comments = neighborCommentRepository.findComments(postId, pageable);
 
-        List<NeighborCommentResponse> commentDto = comments.stream()
-                .map(comment -> NeighborCommentResponse.makeCommentResponse(comment, userId)).collect(Collectors.toList());
+        List<NeighborCommentResponse> commentDtoList = new ArrayList<>();
+        for (NeighborComment comment : comments) {
+            Optional<NeighborCommentLike> isCommentLike = neighborCommentLikeRepository.findByCommentIdAndUserId(comment.getId(), userId);
+
+            boolean isMine = comment.getUser().getId() == userId;
+
+            List<NeighborReplyResponse> replyDtoList = new ArrayList<>();
+
+            for(NeighborComment reply : comment.getReplies().values()) {
+                Optional<NeighborCommentLike> isReplyLike = neighborCommentLikeRepository.findByCommentIdAndUserId(reply.getId(), userId);
+                NeighborReplyResponse replyDto = NeighborReplyResponse.makeReplyResponse(reply, reply.getUser().getId() == userId, isReplyLike.isPresent());
+
+                replyDtoList.add(replyDto);
+            }
+
+            NeighborCommentResponse commentDto = NeighborCommentResponse.makeCommentResponse(comment, isMine, isCommentLike.isPresent(), replyDtoList);
+
+            commentDtoList.add(commentDto);
+        }
 
         long count = comments.getTotalElements();
 
-        return new Response(ResponseMessage.NEIGHBOR_COMMENT_GET, new NeighborCommentListResponse(count, commentDto));
+        return new Response(ResponseMessage.NEIGHBOR_COMMENT_GET, new NeighborCommentListResponse(count, commentDtoList));
     }
 }

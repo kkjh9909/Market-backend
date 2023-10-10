@@ -28,7 +28,10 @@ public class NeighborReplyResponse {
     @JsonProperty("my_comment")
     private boolean isMine;
 
-    public static NeighborReplyResponse makeReplyResponse(NeighborComment reply, long userId) {
+    @JsonProperty("is_like")
+    private boolean isLike;
+
+    public static NeighborReplyResponse makeReplyResponse(NeighborComment reply, boolean isMine, boolean isLike) {
         return NeighborReplyResponse.builder()
                 .id(reply.getId())
                 .content(reply.getContent())
@@ -36,7 +39,8 @@ public class NeighborReplyResponse {
                 .nickname(reply.getUser().getNickname())
                 .createdAt(reply.getCreatedAt())
                 .likes(reply.getLikes())
-                .isMine(reply.getUser().getId() == userId)
+                .isMine(isMine)
+                .isLike(isLike)
                 .build();
     }
 }
