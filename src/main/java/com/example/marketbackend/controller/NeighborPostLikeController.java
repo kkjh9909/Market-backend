@@ -1,32 +1,28 @@
 package com.example.marketbackend.controller;
 
 import com.example.marketbackend.dto.Response;
-import com.example.marketbackend.dto.favorite.response.FavoriteAddResponse;
-import com.example.marketbackend.dto.favorite.response.FavoriteDeleteResponse;
-import com.example.marketbackend.service.FavoriteService;
-import com.example.marketbackend.service.LikeService;
+import com.example.marketbackend.service.NeighborPostLikeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/neighbor/like")
-public class LikeController {
+@RequestMapping("/api/neighbor/post/like")
+public class NeighborPostLikeController {
 
-    private final LikeService likeService;
+    private final NeighborPostLikeService neighborPostLikeService;
 
     @PostMapping("/{postId}")
     public ResponseEntity<?> addLike(@PathVariable long postId) {
-        Response response = likeService.likePost(postId);
+        Response response = neighborPostLikeService.likePost(postId);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deleteLike(@PathVariable long postId) {
-        Response response = likeService.dislikePost(postId);
+        Response response = neighborPostLikeService.dislikePost(postId);
 
         return ResponseEntity.ok(response);
     }

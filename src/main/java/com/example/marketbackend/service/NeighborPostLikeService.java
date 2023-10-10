@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class LikeService {
+public class NeighborPostLikeService {
 
     private final UserRepository userRepository;
     private final AuthenticationService authenticationService;
