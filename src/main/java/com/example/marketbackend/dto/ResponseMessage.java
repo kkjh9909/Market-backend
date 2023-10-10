@@ -29,5 +29,6 @@ public class ResponseMessage {
     public static final String NEIGHBOR_DELETE_LIKE = "일상 게시글 좋아요 삭제 성공";
     public static final String NEIGHBOR_COMMENT_ADD = "일상 게시글 댓글 추가 성공";
     public static final String NEIGHBOR_COMMENT_GET = "일상 게시글 댓글 조회 성공";
-
+    public static final String NEIGHBOR_COMMENT_ADD_LIKE = "일상 게시글 댓글 좋아요 성공";
+    public static final String NEIGHBOR_COMMENT_DELETE_LIKE = "일상 게시글 댓글 삭제 성공";
 }

@@ -62,4 +62,12 @@ public class NeighborComment {
 
         return comment;
     }
+
+    public void increaseLike() {
+        this.likes++;
+    }
+
+    public void decreaseLike() {
+        this.likes--;
+    }
 }
