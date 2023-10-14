@@ -1,0 +1,16 @@
+[[회원가입]]
+=== 회원가입
+operation::sign-up[snippets='http-request,http-response,response-fields']
+
+[[로그인]]
+=== 로그인
+operation::sign-in[snippets='http-request,http-response,response-fields']
+
+[[프로필]]
+=== 프로필 정보 가져오기
+operation::profile[snippets='http-request,http-response,response-fields']
+
+[[유저ID]]
+=== 유저 ID 가져오기
+operation::id[snippets='http-request,http-response,response-fields']
+
