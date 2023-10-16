@@ -22,6 +22,10 @@ include::ProductPostApi.adoc[]
 
 include::ChatRoomApi.adoc[]
 
+[[Favorite-API]]
+== Post Favorite API
+
+include::PostFavoriteApi.adoc[]
 
 
 

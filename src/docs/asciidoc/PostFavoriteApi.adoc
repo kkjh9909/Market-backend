@@ -1,0 +1,12 @@
+[[중고글-좋아요-생성]]
+=== 중고글 좋아요 생성
+operation::product-post-like-add[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
+
+[[중고글-좋아요-삭제]]
+=== 중고글 좋아요 삭제
+operation::product-post-like-delete[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
+
+[[좋아요한-중고글-목록-조회]]
+=== 중고글 좋아요 목록 조회
+operation::product-post-like-posts[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
+
