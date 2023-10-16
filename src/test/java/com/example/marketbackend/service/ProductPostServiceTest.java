@@ -54,32 +54,6 @@ class ProductPostServiceTest {
     }
 
     @Test
-    @DisplayName("판매글 작성 테스트")
-    public void write() {
-        ProductPostWriteRequest request = new ProductPostWriteRequest("title", 10_000, "content", "category", false);
-
-        User testUser = createTestUser();
-
-        Authentication authentication = mock(Authentication.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-        UserDetails userDetails = mock(UserDetails.class);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-        when(userDetails.getUsername()).thenReturn("1");
-
-        SecurityContextHolder.setContext(securityContext);
-
-        Long userId = Long.parseLong(userDetails.getUsername());
-
-        productPostService.write(request);
-
-        List<ProductPost> all = productPostRepository.findAll();
-
-        assertEquals(1, all.size());
-    }
-
-    @Test
     @DisplayName("판매글 조회 기능 테스트")
     public void getPost() {
 

@@ -14,6 +14,6 @@ public class ProductPostsByCategoryResponse {
     @JsonProperty("count")
     private long count;
 
-    @JsonProperty("post_info")
+    @JsonProperty("posts")
     private List<ProductPostListDTO> productPostListDTO;
 }

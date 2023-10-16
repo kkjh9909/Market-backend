@@ -1,5 +1,6 @@
 package com.example.marketbackend.service;
 
+import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserSignInResponse;
@@ -57,7 +58,7 @@ class UserServiceTest {
 
         userRepository.save(user);
 
-        UserSignInResponse response = userService.signIn(userSignInRequest);
+        Response response = userService.signIn(userSignInRequest);
 
         assertEquals("로그인 성공", response.getMessage());
     }
