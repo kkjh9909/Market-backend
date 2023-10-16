@@ -1,0 +1,7 @@
+[[채팅방-생성]]
+=== 채팅방 생성
+operation::chatroom-get[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
+
+[[채팅방-목록-조회]]
+=== 채팅방 목록
+operation::chatroom-list-get[snippets='http-request,request-headers,request-parameters,http-response,response-fields']

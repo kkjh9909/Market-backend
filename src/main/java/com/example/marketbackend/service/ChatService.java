@@ -46,8 +46,6 @@ public class ChatService {
     }
 
     public void sendMessage(long chatroom, ChatRequest message, int senderId) {
-        System.out.println("sender " + senderId);
-
         Optional<User> user = userRepository.findById((long)senderId);
         Optional<ChatRoom> room = chatRoomRepository.findById(chatroom);
 

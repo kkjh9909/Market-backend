@@ -17,6 +17,10 @@ include::UserApi.adoc[]
 
 include::ProductPostApi.adoc[]
 
+[[ChatRoom-API]]
+== ChatRoom API
+
+include::ChatRoomApi.adoc[]
 
 
 
