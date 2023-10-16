@@ -9,24 +9,22 @@ backend()
 
 [[USER-API]]
 == User API
-
 include::UserApi.adoc[]
 
 [[PRODUCT-POST-API]]
 == Product Post API
-
 include::ProductPostApi.adoc[]
 
 [[ChatRoom-API]]
 == ChatRoom API
-
 include::ChatRoomApi.adoc[]
 
 [[Favorite-API]]
 == Post Favorite API
-
 include::PostFavoriteApi.adoc[]
 
-
+[[Image-API]]
+== Image Upload API
+include::ImageApi.adoc[]
 
 
