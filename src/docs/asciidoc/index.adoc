@@ -27,6 +27,10 @@ include::NeighborPostApi.adoc[]
 == Neighbor Post Like API
 include::NeighborPostLikeApi.adoc[]
 
+[[Neighbor-Post-Comment-API]]
+== Neighbor Post Comment API
+include::NeighborCommentApi.adoc[]
+
 [[ChatRoom-API]]
 == ChatRoom API
 include::ChatRoomApi.adoc[]
