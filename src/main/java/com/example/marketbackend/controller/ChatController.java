@@ -35,9 +35,6 @@ public class ChatController {
 
     @MessageMapping("/chat/{chatroom}")
     public void handleChatMessage(@DestinationVariable long chatroom, ChatRequest message, SimpMessageHeaderAccessor accessor) {
-        System.out.println(message.toString());
-        System.out.println(chatroom);
-
         Integer senderId = sessions.get(accessor.getSessionId());
 
         chatService.sendMessage(chatroom, message, senderId);
