@@ -20,10 +20,10 @@ public class NeighborPost {
     @Id @GeneratedValue
     private long id;
 
-    @Column(length = 10000)
+    @Column(length = 5000)
     private String title;
 
-    @Column(length = 10000)
+    @Column(length = 5000)
     private String content;
 
     private String category;

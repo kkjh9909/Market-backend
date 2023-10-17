@@ -1,0 +1,11 @@
+[[일상글-작성]]
+=== 일상글 작성
+operation::neighbor-post-write[snippets='http-request,request-headers,request-fields,http-response,response-fields']
+
+[[일상글-목록-조회]]
+=== 일상글 목록 조회
+operation::neighbor-post-list-get[snippets='http-request,request-parameters,http-response,response-fields']
+
+[[일상글-조회]]
+=== 일상글 조회
+operation::neighbor-post-get[snippets='http-request,path-parameters,http-response,response-fields']

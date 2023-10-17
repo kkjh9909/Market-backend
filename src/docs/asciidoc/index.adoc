@@ -15,13 +15,19 @@ include::UserApi.adoc[]
 == Product Post API
 include::ProductPostApi.adoc[]
 
+[[Favorite-API]]
+== Product Post Favorite API
+include::PostFavoriteApi.adoc[]
+
+[[Neighbor-Post-API]]
+== Neighbor Post API
+include::NeighborPostApi.adoc[]
+
+
+
 [[ChatRoom-API]]
 == ChatRoom API
 include::ChatRoomApi.adoc[]
-
-[[Favorite-API]]
-== Post Favorite API
-include::PostFavoriteApi.adoc[]
 
 [[Image-API]]
 == Image Upload API
