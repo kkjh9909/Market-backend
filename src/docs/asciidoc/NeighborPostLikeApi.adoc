@@ -1,0 +1,7 @@
+[[일상글-좋아요-추가]]
+=== 일상글 좋아요 추가
+operation::neighbor-post-like-add[snippets='http-request,request-headers,path-parameters,http-response,response-fields']
+
+[[일상글-좋아요-삭제]]
+=== 일상글 좋아요 삭제
+operation::neighbor-post-like-delete[snippets='http-request,path-parameters,http-response,response-fields']

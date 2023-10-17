@@ -23,7 +23,9 @@ include::PostFavoriteApi.adoc[]
 == Neighbor Post API
 include::NeighborPostApi.adoc[]
 
-
+[[Neighbor-Post-Like-API]]
+== Neighbor Post Like API
+include::NeighborPostLikeApi.adoc[]
 
 [[ChatRoom-API]]
 == ChatRoom API
