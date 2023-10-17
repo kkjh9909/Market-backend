@@ -39,7 +39,7 @@ public class NeighborPostService {
 
         neighborPostRepository.save(post);
 
-        return new Response(ResponseMessage.NEIGHBOR_POST_WRITE, null);
+        return new Response(ResponseMessage.NEIGHBOR_POST_WRITE, new NeighborPostWriteResponse(post.getId()));
     }
 
     public Response getPostList(Optional<String> category, Pageable pageable) {
