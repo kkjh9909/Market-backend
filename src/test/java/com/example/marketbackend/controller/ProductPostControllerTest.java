@@ -10,6 +10,7 @@ import com.example.marketbackend.service.ProductPostService;
 import com.example.marketbackend.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.security.core.userdetails.User;
@@ -43,9 +46,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class ProductPostControllerTest {
 
     @Autowired
@@ -91,7 +96,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void write() throws Exception {
         ProductPostWriteRequest request = new ProductPostWriteRequest("title", 10_000, "content",
                 "category", true, new String[]{"imageUrl1", "imageUrl2"});
@@ -127,7 +131,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void getPostDetail() throws Exception{
         String token = getToken();
 
@@ -175,7 +178,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void getPosts() throws Exception {
         String token = getToken();
 
@@ -218,7 +220,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void getPostsByCategory() throws Exception {
         String token = getToken();
 
@@ -258,7 +259,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void getMyPosts() throws Exception {
         String token = getToken();
 
@@ -304,7 +304,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void getMyPost() throws Exception {
         String token = getToken();
 
@@ -343,7 +342,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void updateMyPost() throws Exception {
         String token = getToken();
 
@@ -385,7 +383,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void deleteMyPost() throws Exception {
         String token = getToken();
 
@@ -414,7 +411,6 @@ class ProductPostControllerTest {
     }
 
     @Test
-    @Transactional
     void searchPost() throws Exception {
         String token = getToken();
 
