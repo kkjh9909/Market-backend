@@ -9,6 +9,8 @@
 - 개발 환경: SpringBoot 2.7.5, Gradle 8.2.1, Jpa, Spring Security, QueryDsl
 - 데이터베이스: MySQL
 
+[✈ 프론트엔드 Repository 보러가기](https://github.com/kkjh9909/Market-frontend)
+
 ## 📋 데이터베이스 다이어그램
 ![diagram](https://github.com/kkjh9909/kkjh9909.github.io/assets/63646062/c35b8696-797c-4d34-93ae-382cbf287108)
 
