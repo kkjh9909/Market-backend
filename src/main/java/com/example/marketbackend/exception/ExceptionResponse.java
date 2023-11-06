@@ -1,19 +1,22 @@
 package com.example.marketbackend.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-public class ExceptionResponse extends RuntimeException{
+@Data
+public class ExceptionResponse {
 
-    @JsonProperty("result")
-    private String result = "failed";
+    @JsonProperty("field")
+    private String field;
 
     @JsonProperty("message")
     private String message;
 
-    @JsonProperty("error_code")
+    @JsonProperty("code")
     private int errorCode;
 
-    public ExceptionResponse(String message, int errorCode) {
+    public ExceptionResponse(String field, String message, int errorCode) {
+        this.field = field;
         this.message = message;
         this.errorCode = errorCode;
     }

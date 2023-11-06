@@ -2,6 +2,7 @@ package com.example.marketbackend.service;
 
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
+import com.example.marketbackend.dto.user.request.UserIdCheckRequest;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserProfileResponse;
@@ -9,6 +10,7 @@ import com.example.marketbackend.dto.user.response.UserSignInResponse;
 import com.example.marketbackend.dto.user.response.UserSignUpResponse;
 import com.example.marketbackend.entity.User;
 import com.example.marketbackend.exception.LoginException;
+import com.example.marketbackend.exception.response.DuplicateIdException;
 import com.example.marketbackend.repository.UserRepository;
 import com.example.marketbackend.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -74,5 +76,16 @@ public class UserService {
         Optional<User> user = userRepository.findById(userId);
 
         return new Response(ResponseMessage.ID_GET, user.get().getId());
+    }
+
+    public Response checkId(UserIdCheckRequest request) {
+
+        Optional<User> user = userRepository.findByUserId(request.getUserId());
+
+        if(user.isPresent())
+            throw new DuplicateIdException("ID", "ID 중복 오류");
+
+        return new Response(ResponseMessage.CHECK_ID_SUCCESS, null);
+
     }
 }

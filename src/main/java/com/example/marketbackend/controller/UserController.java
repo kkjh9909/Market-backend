@@ -2,14 +2,18 @@ package com.example.marketbackend.controller;
 
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
+import com.example.marketbackend.dto.user.request.UserIdCheckRequest;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserSignInResponse;
 import com.example.marketbackend.dto.user.response.UserSignUpResponse;
 import com.example.marketbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +46,13 @@ public class UserController {
     @GetMapping("/id")
     public ResponseEntity<?> getId() {
         Response response = userService.getId();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<?> checkId(@RequestBody UserIdCheckRequest request) {
+        Response response = userService.checkId(request);
 
         return ResponseEntity.ok(response);
     }

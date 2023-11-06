@@ -1,6 +1,7 @@
 package com.example.marketbackend.controller;
 
 import com.example.marketbackend.dto.Response;
+import com.example.marketbackend.dto.user.request.UserIdCheckRequest;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserSignInResponse;
@@ -144,6 +145,27 @@ class UserControllerTest {
                 );
     }
 
+    @Test
+    public void checkId() throws Exception {
+        UserIdCheckRequest request = new UserIdCheckRequest();
+        request.setUserId("test");
+
+        mockMvc.perform(
+                        post("/api/user/check")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(request))
+                )
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("check-id",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                responseFields(
+                                        fieldWithPath("message").description("응답 메시지")
+                                )
+                        )
+                );
+    }
 
     public String getToken() {
         signup();
