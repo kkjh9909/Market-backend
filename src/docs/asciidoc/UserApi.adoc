@@ -14,3 +14,6 @@ operation::profile[snippets='http-request,http-response,response-fields']
 === 유저 ID 가져오기
 operation::id[snippets='http-request,http-response,response-fields']
 
+[[ID중복검사]]
+=== 아이디 중복 검사
+operation::check-id[snippets='http-request,http-response,response-fields']
