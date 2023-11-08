@@ -46,8 +46,8 @@ public class NeighborPostService {
 
         Page<NeighborPost> posts;
 
-        if(category.isEmpty())
-            posts = neighborPostRepository.findByIsDeletedFalse(pageable);
+        if(category.orElse("인기").equals("인기"))
+            posts = neighborPostRepository.findByIsDeletedFalseAndLikesGreaterThan(0, pageable);
         else
             posts = neighborPostRepository.findByCategoryAndIsDeletedFalse(category.get(), pageable);
 

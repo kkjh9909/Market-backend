@@ -36,4 +36,5 @@ public class ResponseMessage {
     public static final String NEIGHBOR_COMMENT_ADD_LIKE = "일상 게시글 댓글 좋아요 성공";
     public static final String NEIGHBOR_COMMENT_DELETE_LIKE = "일상 게시글 댓글 삭제 성공";
     public static final String MY_NEIGHBOR_POST_GET = "내 일상 게시글 목록 조회 성공";
+    public static final String NEIGHBOR_HOT_POSTS = "일상 게시글 인기글 목록 조회 성공";
 }

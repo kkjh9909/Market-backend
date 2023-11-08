@@ -18,4 +18,6 @@ public interface NeighborPostRepository extends JpaRepository<NeighborPost, Long
     void increaseHits(@Param("id") long id);
 
     Page<NeighborPost> findByUserId(long userId, Pageable pageable);
+
+    Page<NeighborPost> findByIsDeletedFalseAndLikesGreaterThan(int likes, Pageable pageable);
 }
