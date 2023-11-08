@@ -56,4 +56,11 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/validate-token")
+    public ResponseEntity<?> validateToken() {
+        Response response = new Response(ResponseMessage.VALIDATE_TOKEN, null);
+
+        return ResponseEntity.ok(response);
+    }
 }

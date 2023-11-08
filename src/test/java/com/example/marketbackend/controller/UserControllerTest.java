@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.logging.Filter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -160,6 +162,31 @@ class UserControllerTest {
                         MockMvcRestDocumentation.document("check-id",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                responseFields(
+                                        fieldWithPath("message").description("응답 메시지")
+                                )
+                        )
+                );
+    }
+
+    @Test
+    public void validateToken() throws Exception {
+
+        String token = getToken();
+
+        mockMvc.perform(
+                        get("/api/user/validate-token")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                )
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("validate-token",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                requestHeaders(
+                                        headerWithName("Authorization").description("인증 토큰").optional()
+                                ),
                                 responseFields(
                                         fieldWithPath("message").description("응답 메시지")
                                 )
