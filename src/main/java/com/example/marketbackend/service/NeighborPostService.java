@@ -79,4 +79,15 @@ public class NeighborPostService {
 
         return new Response(ResponseMessage.NEIGHBOR_POST_GET, new NeighborPostDetailResponse(postDetail, userDetail));
     }
+
+    public Response getMyPosts(Pageable pageable) {
+        long userId = authenticationService.getUserId();
+
+        Page<NeighborPost> posts = neighborPostRepository.findByUserId(userId, pageable);
+        long count = posts.getTotalElements();
+
+        NeighborPostsListResponse response = new NeighborPostsListResponse(count, posts.stream().map(NeighborPostCardResponse::make).collect(Collectors.toList()));
+
+        return new Response(ResponseMessage.MY_NEIGHBOR_POST_GET, response);
+    }
 }

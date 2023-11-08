@@ -40,4 +40,11 @@ public class NeighborPostController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/my")
+    public ResponseEntity<?> getMyPosts(Pageable pageable) {
+        Response response = neighborPostService.getMyPosts(pageable);
+
+        return ResponseEntity.ok(response);
+    }
 }

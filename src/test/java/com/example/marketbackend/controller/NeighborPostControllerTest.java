@@ -216,4 +216,46 @@ class NeighborPostControllerTest {
                         )
                 );
     }
+
+    @Test
+    void getMyPosts() throws Exception {
+        String token = getToken();
+
+        for(int i = 0; i < 3; i++) {
+            makePost();
+        }
+
+        mockMvc.perform(
+                        get("/api/neighbor/post/my")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("page", "0")
+                                .header("Authorization", "Bearer " + token)
+                )
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("neighbor-post-list-my",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                requestHeaders(
+                                        headerWithName("Authorization").description("인증 토큰")
+                                ),
+                                requestParameters(
+                                        parameterWithName("page").description("페이지 번호")
+                                ),
+                                responseFields(
+                                        fieldWithPath("message").description("응답 메시지"),
+                                        subsectionWithPath("result").description("응답 결과"),
+                                        fieldWithPath("result.count").description("포스트 개수"),
+                                        subsectionWithPath("result.posts[]").type(JsonFieldType.ARRAY).description("포스트 결과"),
+                                        fieldWithPath("result.posts[].id").type(JsonFieldType.NUMBER).description("작성글 고유 ID"),
+                                        fieldWithPath("result.posts[].title").description("제목"),
+                                        fieldWithPath("result.posts[].content").description("내용"),
+                                        fieldWithPath("result.posts[].category").description("카테고리"),
+                                        fieldWithPath("result.posts[].hit_count").description("주회수"),
+                                        fieldWithPath("result.posts[].like_count").description("좋아요 수"),
+                                        fieldWithPath("result.posts[].time").description("작성 시간")
+                                )
+                        )
+                );
+    }
 }

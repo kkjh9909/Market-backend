@@ -16,4 +16,6 @@ public interface NeighborPostRepository extends JpaRepository<NeighborPost, Long
     @Modifying
     @Query("update NeighborPost p set p.hits = p.hits + 1 where p.id = :id")
     void increaseHits(@Param("id") long id);
+
+    Page<NeighborPost> findByUserId(long userId, Pageable pageable);
 }

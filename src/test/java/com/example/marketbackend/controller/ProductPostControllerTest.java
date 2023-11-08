@@ -280,12 +280,6 @@ class ProductPostControllerTest {
                         MockMvcRestDocumentation.document("product-post-list-my",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
-                                requestHeaders(
-                                        headerWithName("Authorization").description("인증 토큰")
-                                ),
-                                requestParameters(
-                                        parameterWithName("page").description("페이지 번호")
-                                ),
                                 responseFields(
                                         fieldWithPath("message").description("응답 메시지"),
                                         subsectionWithPath("result").description("응답 결과"),
