@@ -3,6 +3,7 @@ package com.example.marketbackend.controller;
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.user.request.UserIdCheckRequest;
+import com.example.marketbackend.dto.user.request.UserProfileEditRequest;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserSignInResponse;
@@ -60,6 +61,13 @@ public class UserController {
     @GetMapping("/validate-token")
     public ResponseEntity<?> validateToken() {
         Response response = new Response(ResponseMessage.VALIDATE_TOKEN, null);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<?> editProfile(@RequestBody UserProfileEditRequest request) {
+        Response response = userService.editProfile(request);
 
         return ResponseEntity.ok(response);
     }

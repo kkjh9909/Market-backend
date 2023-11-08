@@ -3,6 +3,7 @@ package com.example.marketbackend.service;
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.ResponseMessage;
 import com.example.marketbackend.dto.user.request.UserIdCheckRequest;
+import com.example.marketbackend.dto.user.request.UserProfileEditRequest;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserProfileResponse;
@@ -67,7 +68,7 @@ public class UserService {
 
         Optional<User> user = userRepository.findById(userId);
 
-        return new Response(ResponseMessage.PROFILE_GET, new UserProfileResponse(user.get().getProfileImage(), user.get().getNickname()));
+        return new Response(ResponseMessage.PROFILE_GET, new UserProfileResponse(user.get().getProfileImage(), user.get().getNickname(), user.get().getAddress()));
     }
 
     public Response getId() {
@@ -87,5 +88,15 @@ public class UserService {
 
         return new Response(ResponseMessage.CHECK_ID_SUCCESS, null);
 
+    }
+
+    @Transactional
+    public Response editProfile(UserProfileEditRequest request) {
+        long userId = authenticationService.getUserId();
+        Optional<User> user = userRepository.findById(userId);
+
+        user.get().editProfile(request);
+
+        return new Response(ResponseMessage.EDIT_PROFILE, new UserProfileResponse(user.get().getProfileImage(), user.get().getNickname(), user.get().getAddress()));
     }
 }

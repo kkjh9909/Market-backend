@@ -1,5 +1,6 @@
 package com.example.marketbackend.entity;
 
+import com.example.marketbackend.dto.user.request.UserProfileEditRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,5 +45,13 @@ public class User {
                 .profileImage(userSignUpRequest.getProfileImage())
                 .createdAt(LocalDateTime.now())
                 .build();
+    }
+
+    public User editProfile(UserProfileEditRequest request) {
+        this.nickname = request.getNickname();
+        this.address = request.getAddress();
+        this.profileImage = request.getImage();
+
+        return this;
     }
 }

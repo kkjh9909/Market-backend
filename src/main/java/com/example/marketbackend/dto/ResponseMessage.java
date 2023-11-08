@@ -5,6 +5,7 @@ public class ResponseMessage {
     public static final String CHECK_ID_SUCCESS = "아이디 사용 가능";
     public static final String CHECK_ID_FAILED = "아이디 사용 불가능";
     public static final String VALIDATE_TOKEN = "유효한 토큰 인증";
+    public static final String EDIT_PROFILE = "프로필 정보 수정 성공";
     public static final String SIGN_UP = "회원가입 성공";
     public static final String SIGN_IN = "로그인 성공";
     public static final String PRODUCT_POST_WRITE = "물건 판매글 작성 성공";

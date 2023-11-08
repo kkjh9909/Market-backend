@@ -13,4 +13,7 @@ public class UserProfileResponse {
 
     @JsonProperty("nickname")
     private String nickname;
+
+    @JsonProperty("address")
+    private String address;
 }

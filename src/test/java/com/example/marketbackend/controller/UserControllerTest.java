@@ -2,6 +2,7 @@ package com.example.marketbackend.controller;
 
 import com.example.marketbackend.dto.Response;
 import com.example.marketbackend.dto.user.request.UserIdCheckRequest;
+import com.example.marketbackend.dto.user.request.UserProfileEditRequest;
 import com.example.marketbackend.dto.user.request.UserSignInRequest;
 import com.example.marketbackend.dto.user.request.UserSignUpRequest;
 import com.example.marketbackend.dto.user.response.UserSignInResponse;
@@ -31,8 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,6 +64,14 @@ class UserControllerTest {
                         MockMvcRestDocumentation.document("sign-up",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                requestFields(
+                                        fieldWithPath("userId").description("유저 아이디"),
+                                        fieldWithPath("password").description("비밀번호"),
+                                        fieldWithPath("username").description("유저 이름"),
+                                        fieldWithPath("nickname").description("닉네임"),
+                                        fieldWithPath("profileImage").description("프로필 이미지"),
+                                        fieldWithPath("address").description("주소")
+                                ),
                                 responseFields(
                                         fieldWithPath("message").description("응답 메시지"),
                                         subsectionWithPath("result").description("응답 결과"),
@@ -189,6 +197,42 @@ class UserControllerTest {
                                 ),
                                 responseFields(
                                         fieldWithPath("message").description("응답 메시지")
+                                )
+                        )
+                );
+    }
+
+    @Test
+    public void editProfile() throws Exception {
+
+        String token = getToken();
+        UserProfileEditRequest request = new UserProfileEditRequest("nickname", "address", "imageUrl");
+
+        mockMvc.perform(
+                        put("/api/user/profile")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(request))
+                                .header("Authorization", "Bearer " + token)
+                )
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("edit-profile",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                requestHeaders(
+                                        headerWithName("Authorization").description("인증 토큰").optional()
+                                ),
+                                requestFields(
+                                        fieldWithPath("nickname").description("닉네임"),
+                                        fieldWithPath("address").description("주소"),
+                                        fieldWithPath("image").description("이미지 경로")
+                                ),
+                                responseFields(
+                                        fieldWithPath("message").description("응답 메시지"),
+                                        subsectionWithPath("result").description("응답 결과"),
+                                        fieldWithPath("result.nickname").description("닉네임"),
+                                        fieldWithPath("result.address").description("주소"),
+                                        fieldWithPath("result.image").description("이미지 경로")
                                 )
                         )
                 );
