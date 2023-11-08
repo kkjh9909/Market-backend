@@ -113,6 +113,9 @@ class ProductPostControllerTest {
                         MockMvcRestDocumentation.document("product-post-write",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                requestHeaders(
+                                        headerWithName("Authorization").description("인증 토큰").optional()
+                                ),
                                 requestFields(
                                     fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                     fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
